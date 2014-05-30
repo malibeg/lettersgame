@@ -133,13 +133,13 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
 
         if (done) {
             if (miss > 0) {
-                alert("BRAVO! But you made several misses: " + miss);
+                alert("BRAVO! Ali promašio si nekoliko polja: " + miss);
             } else {
                 alert('BRAVO MAJSTORE/ICE !!!!!');
             }
             //this.reset();
         } else {
-            alert("Potrudi se još malo ti fali!");
+            alert("Potrudi se još malo i nauči pisati ovo slovo!");
         }
     }, true);
 
