@@ -1,5 +1,12 @@
 ﻿
 
+//               ||           ||  o | |
+//       _o_,_\ ,;:   .'_o_\ ,;:  (_|_;:  _o_,_,_,_;
+//      (  ..  /     (_)    /            (        .
+
+ 
+
+
 // Constructor for Rectangle objects to hold data for all drawn objects.
 // For now they will just be defined as rectangles.
 function Rectangle(obj) {
@@ -20,7 +27,7 @@ Rectangle.prototype.draw = function (ctx) {
     ctx.fillRect(this.x, this.y, this.w, this.h);
 };
 
-
+// This class calculates color of background cell
 function Background(obj) {
     this.col1 = '#BBFFBB';
     this.col2 = '#333333';
@@ -31,17 +38,26 @@ function Background(obj) {
 
 // Get cell color
 Background.prototype.getcolor = function (col, row) {
-    var color = '#333333';
+    var color = constants.pairfieldcolor;
     if (this.letter == null) {
         if (((col + row) % 2) === 0) {
-            color = '#BBFFBB';
+            color = constants.oddfieldcolor;
         }
     } else {
-        var index = col + row * this.rectNum;
+        var index = row + col * this.rectNum;
         color = this.letter[index].fill;
     }
 
     return color;
+};
+
+
+var constants = {
+    lettercolor: '#00CC99',
+    clickcolor: '#EE3333',
+    oddfieldcolor: '#BBFFBB',
+    pairfieldcolor: '#333333',
+    misscolor: '#9999FF'
 };
 
 
@@ -89,7 +105,7 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
                 e.preventBubble = true;
                 return false;
             } else {
-                selectedRect.fill = '#ff0000';
+                selectedRect.fill = constants.clickcolor;
             }
             self.dragging = true;
         }
@@ -98,6 +114,33 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
     }, true);
     canvas.addEventListener('mouseup', function (e) {
         self.dragging = false;
+        var done = true;
+        var miss = 0;
+        var bgletter = self.background.letter; 
+        if (bgletter !== null) {
+            for (var i = 0; i < bgletter.length; i++) {
+                var cellColor = self.shapes[i].fill;
+                if (bgletter[i].fill !== cellColor) {
+                    if (bgletter[i].fill !== constants.lettercolor) {
+                        self.shapes[i].fill = constants.misscolor;
+                        miss++;
+                    } 
+                } else if (bgletter[i].fill === constants.lettercolor) {
+                    done = false;
+                }
+            }
+        }
+
+        if (done) {
+            if (miss > 0) {
+                alert("BRAVO! But you made several misses: " + miss);
+            } else {
+                alert('BRAVO MAJSTORE/ICE !!!!!');
+            }
+            //this.reset();
+        } else {
+            alert("Potrudi se još malo ti fali!");
+        }
     }, true);
 
     canvas.addEventListener('mousemove', function (e) {
@@ -107,7 +150,7 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
             var y = Math.floor(mouse.y / self.rectSize);
             if (x >= 0 && x < self.rectNum && y >= 0 && y < self.rectNum) {
                 var selectedRect = self.shapes[y + x * self.rectNum];
-                selectedRect.fill = '#AA0000';
+                selectedRect.fill = constants.clickcolor;
             }
         }
     }, true);
@@ -159,7 +202,7 @@ MyCanvas.prototype.reset = function () {
         var shape = shapes[i] || [];
         var row = Math.floor(i / this.rectNum);
         var col = i - row * this.rectNum;
-        shape.fill = this.background.getcolor(col, row);;
+        shape.fill = this.background.getcolor(row, col);;
     }
 }
 
@@ -169,7 +212,7 @@ function MyApp() {
     this.rectNum = 10;
     this.rectSize = 30;
     this.shapes = [];
-    this.canvas.width = this.rectNum * this.rectSize;5
+    this.canvas.width = this.rectNum * this.rectSize;
     this.canvas.height = this.rectNum * this.rectSize;
     var letter = JSON.parse(letterA);
     this.mycanvashandler = new MyCanvas(this.canvas, this.ctx, 200, this.rectNum, this.rectSize, letter);
@@ -192,11 +235,12 @@ MyApp.prototype.reset = function () {
     this.mycanvashandler.reset();
 }
 
-MyApp.prototype.exportDrawing = function() {
+MyApp.prototype.exportDrawing = function () {
+    // store grid to json and I need only
     console.log(JSON.stringify(this.mycanvashandler.shapes, ['fill']));
     
 
-
+    // TEST of loading letters TODO delete this
     var shapesJSON = JSON.parse(letterA);
     var len = shapesJSON.length;
     if (len === this.mycanvashandler.shapes.length) {
@@ -204,6 +248,8 @@ MyApp.prototype.exportDrawing = function() {
             this.mycanvashandler.shapes[i].fill = shapesJSON[i].fill;
         }
     }
+
+    // old shitty code (este'uza), but I learned a lot (how to load json array to objects with behaviour). So in respect of that I still keep it. (elham)
     //var shapes = [];
     //var rectSize = this.mycanvashandler.rectSize;
     //shapesJSON.forEach(function (element) {
@@ -228,3 +274,29 @@ function exportDrawing() {
 }
 
 var letterA = '[{ "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }]';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
