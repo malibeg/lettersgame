@@ -4,15 +4,23 @@
     <title></title>
     <script src="myapp.js"></script>
 </head>
-    <body onload='init()'>
-        <h2>This is the test</h2>
-        <button onclick="reset()">Reset</button>
+<body onload='init()'>
+    <h2>This is the learn to write letters game</h2>
+    <div id="buttons">
+        <button onclick="reset(true)">Clear</button>
+        <button onclick="reset(false)">Reset</button>
+        <select onchange="letterChanged(this.value)">
+            <option value="A">Slovo A</option>
+            <option value="B">Slovo B</option>
+        </select>
         <button onclick="exportDrawing()">Export</button>
-        <div id="container">
-            <canvas id="canvas" width="400" height="400" style="border: 1px solid #000;" oncontextmenu="return false">
-                <br />
-                This text is displayed if your browser does not support HTML5 Canvas.<br />
-            </canvas>
-        </div>
-    </body>
+    </div>
+    <div id="container">
+        <div><label id="messages">Click and drag the mouse to draw a letter!</label></div>
+        <canvas id="canvas" width="400" height="400" style="border: 1px solid #000;" oncontextmenu="return false">
+            <br />
+            This text is displayed if your browser does not support HTML5 Canvas.<br />
+        </canvas>
+    </div>
+</body>
 </html>
