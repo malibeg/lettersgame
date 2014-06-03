@@ -4,8 +4,8 @@
 //       _o_,_\ ,;:   .'_o_\ ,;:  (_|_;:  _o_,_,_,_;
 //      (  ..  /     (_)    /            (        .
 
- 
 
+/// RECTANGLE OBJECT
 
 // Constructor for Rectangle objects to hold data for all drawn objects.
 // For now they will just be defined as rectangles.
@@ -26,6 +26,35 @@ Rectangle.prototype.draw = function (ctx) {
     ctx.fillStyle = this.fill;
     ctx.fillRect(this.x, this.y, this.w, this.h);
 };
+
+
+///   MESSAGE OBJECT
+
+function Message(obj) {
+    this.message = "";
+    this.fill = "blue";
+    this.showtime = 0;
+    this.decrement = 1;
+    this.font = "40pt Helvetica";
+    this.textAlign = "center";
+    this.textBaseline = "middle";
+    // IF AN OBJECT WAS PASSED THEN INITIALISE PROPERTIES FROM THAT OBJECT
+    for (var prop in obj) this[prop] = obj[prop];
+}
+
+
+Message.prototype.draw = function (ctx) {
+    if (this.showtime > 0) {
+        ctx.fillStyle = this.fill;
+        ctx.font = this.font;
+        ctx.textAlign = this.textAlign;
+        ctx.textBaseline = this.textBaseline;
+        ctx.fillText(this.message, 150, 100);
+        this.showtime--;
+    }
+};
+
+/// BACKGROUND OBJECT
 
 // This class calculates color of background cell
 function Background(obj) {
@@ -52,6 +81,8 @@ Background.prototype.getcolor = function (col, row) {
 };
 
 
+
+
 var constants = {
     lettercolor: '#00CC99',
     clickcolor: '#EE3333',
@@ -70,9 +101,10 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
     this.dragging = false;
     this.currLetter = currLeter || {};
     this.shapes = [];
+    this.infomessage = {};
     this.background = new Background({
         letter: this.currLetter,
-        rectNum : rectNum
+        rectNum: rectNum
     });
     this.generateShapes();
 
@@ -116,7 +148,7 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
         self.dragging = false;
         var done = true;
         var miss = 0;
-        var bgletter = self.background.letter; 
+        var bgletter = self.background.letter;
         if (bgletter !== null) {
             for (var i = 0; i < bgletter.length; i++) {
                 var cellColor = self.shapes[i].fill;
@@ -124,7 +156,7 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
                     if (bgletter[i].fill !== constants.lettercolor) {
                         self.shapes[i].fill = constants.misscolor;
                         miss++;
-                    } 
+                    }
                 } else if (bgletter[i].fill === constants.lettercolor) {
                     done = false;
                 }
@@ -137,7 +169,9 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
                 //alert("BRAVO! Ali promašio si nekoliko polja: " + miss);
             } else {
                 document.getElementById("messages").innerHTML = "BRAVO MAJSTORE/ICE !!!!!";
-                //alert("BRAVO MAJSTORE/ICE !!!!!");
+                self.infomessage = new Message({
+                    message: "BRAVO!!!!!",
+                    showtime: 100});
             }
             //this.reset();
         } else {
@@ -158,6 +192,7 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
         }
     }, true);
     setInterval(function () { self.drawShapes(self.ctx); }, self.interval);
+    //(self.drawShapes(self.ctx));
 }
 
 // Creates an object with x and y defined, set to the mouse position relative to the state's canvas
@@ -196,6 +231,9 @@ MyCanvas.prototype.drawShapes = function () {
         //    shape.x + shape.w < 0 || shape.y + shape.h < 0) continue;
         shapes[i].draw(this.ctx);
     }
+    if (this.infomessage !=  null && this.infomessage.message) {
+        this.infomessage.draw(this.ctx);
+    }
 };
 
 MyCanvas.prototype.reset = function (clear) {
@@ -212,21 +250,10 @@ MyCanvas.prototype.reset = function (clear) {
         var col = i - row * this.rectNum;
         shape.fill = this.background.getcolor(row, col);;
     }
-}
+};
 
-function MyApp() {
-    this.canvas = document.getElementById("canvas");
-    this.ctx = canvas.getContext("2d");
-    this.rectNum = 10;
-    this.rectSize = 30;
-    this.shapes = [];
-    this.canvas.width = this.rectNum * this.rectSize;
-    this.canvas.height = this.rectNum * this.rectSize;
-    var letter = JSON.parse(letters.A);
-    this.mycanvashandler = new MyCanvas(this.canvas, this.ctx, 200, this.rectNum, this.rectSize, letter);
-}
 
-MyCanvas.prototype.generateShapes = function() {
+MyCanvas.prototype.generateShapes = function () {
     for (var i = 0; i < this.rectNum; i = i + 1) {
         for (var j = 0; j < this.rectNum; j = j + 1) {
             var color = this.background.getcolor(i, j);
@@ -241,11 +268,28 @@ MyCanvas.prototype.generateShapes = function() {
     }
 };
 
-MyApp.prototype.reset = function(clear) {
+
+function MyApp() {
+    this.canvas = document.getElementById("canvas");
+    this.ctx = canvas.getContext("2d");
+    this.rectNum = 10;
+    this.rectSize = 30;
+    this.shapes = [];
+    this.canvas.width = this.rectNum * this.rectSize;
+    this.canvas.height = this.rectNum * this.rectSize;
+    this.mycanvashandler = new MyCanvas(this.canvas,
+        this.ctx,
+        200,
+        this.rectNum,
+        this.rectSize,
+        JSON.parse(letters.A));
+}
+
+MyApp.prototype.reset = function (clear) {
     this.mycanvashandler.reset(clear);
 };
 
-MyApp.prototype.letterChanged = function(letter) {
+MyApp.prototype.letterChanged = function (letter) {
     // add setter for current letter TODO
     this.mycanvashandler.currLetter = letter;
     this.mycanvashandler.background.letter = letter;
@@ -253,7 +297,7 @@ MyApp.prototype.letterChanged = function(letter) {
     this.reset();
 };
 
-MyApp.prototype.exportDrawing = function() {
+MyApp.prototype.exportDrawing = function () {
     // store grid to json and I need only
     console.log(JSON.stringify(this.mycanvashandler.shapes, ['fill']));
 
@@ -279,6 +323,8 @@ MyApp.prototype.exportDrawing = function() {
 };
 
 
+var thgameapp = {};
+
 function init() {
     thegameapp = new MyApp();
 };
@@ -297,8 +343,8 @@ function letterChanged(value) {
 };
 
 var letters = {
- A: '[{ "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }]',
- B: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]'
+    A: '[{ "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }]',
+    B: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]'
 };
 
 
