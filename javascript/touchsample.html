@@ -1,0 +1,1061 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+
+
+
+    <title>HTML5 for the Mobile Web: Touch Events | mobiForge</title>
+    <link rel="alternate" media="only screen and (max-width: 640px)" href="http://mobiforge.mobi/design-development/html5-mobile-web-touch-events" />
+    <link rel="alternate" media="handheld" href="http://mobiforge.mobi/design-development/html5-mobile-web-touch-events" />
+    <link rel="alternate" type="application/rss+xml" title="mobiForge RSS" href="/rss.xml" />
+    <link rel="shortcut icon" href="/sites/all/themes/zen/mobiforge/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/sites/all/themes/zen/mobiforge/favicon.ico" type="image/x-icon" />
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="alternate" type="application/rss+xml" title="Comments for HTML5 for the Mobile Web: Touch Events" href="/crss/node/8041" />
+
+    <meta name="description" content="With the widespread adoption of touchscreen devices, HTML5 brings to the table, among many other things, a set of touch-based interaction events. Mouse-based events such as hover, mouse in, mouse out etc. aren’t able to adequately capture the range of" />
+    <meta name="keywords" content="html5,touch events,multi-touch" />
+    <link rel="shortcut icon" href="/sites/all/themes/zen/mobiforge/favicon.ico" type="image/x-icon" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" defer="defer"></script>
+    <style type="text/css" media="all">
+        @import "/sites/mobiforge.com/files/css/1b3786b4b939553a449fcb3f74ffbc09.css";
+    </style>
+
+    <link media="all" href="/sites/all/themes/zen/mobiforge/blueprint/screen.css?c=1" type="text/css" rel="stylesheet" />
+    <link media="print" href="/sites/all/themes/zen/mobiforge/blueprint/print.css?1" type="text/css" rel="stylesheet" />
+    <!--[if IE]><link rel="stylesheet" type="text/css" href="/sites/all/themes/zen/mobiforge/blueprint/ie.css"><![endif]-->
+
+    <link media="all" href="/sites/all/themes/zen/mobiforge/css/screen.min.css?9" type="text/css" rel="stylesheet" />
+
+    <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/sites/all/themes/zen/mobiforge/css/ie6.min.css"><![endif]-->
+    <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/sites/all/themes/zen/mobiforge/css/ie7.min.css"><![endif]-->
+
+
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-3084173-5']);
+        _gaq.push(['_setDomainName', 'mobiforge.com']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+    <link href="/sites/all/themes/zen/mobiforge/css/meganizr.css?4" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id='dm_family'><a class='dm_dotmobi' href='http://mtld.mobi/'>dot<span class='dm_hover'>Mobi</span></a><a class='dm_mobithinking' href='http://mobithinking.com/'>mobi<span class='dm_hover'>Thinking</span></a><a class='dm_mobiforge' href='http://mobiforge.com/'>mobi<span class='dm_active'>Forge</span></a><a class='dm_mobiready' href='http://ready.mobi/'>mobi<span class='dm_hover'>Ready</span></a><a class='dm_deviceatlas' href='http://deviceatlas.com/'>Device<span class='dm_hover'>Atlas</span></a><a class='dm_gomobi' href='http://gomobi.info/'>go<span class='dm_hover'>Mobi</span></a></div>
+    <img id='bground' src='/img/Bibi.jpg/none/20/20/crop/true' alt="background image" />
+    <img id="search-over" src="/images/search-button-over.png" style="display:none" alt="search button active" />
+    <img id="read-more-over" src="/images/read-more-button-over.png" style="display:none" alt="read more button active" />
+
+    <div id="masthead" class="container">
+
+        <div class="left span-16 first">
+            <div class="follow-links">
+                <a onclick='document.cookie="dm_switcher=mobile;path=/;expires=Tue, 01-01-2030 00:00:00 GMT";' href='http://mobiforge.mobi/design-development/html5-mobile-web-touch-events?dm_switcher=true'><img src='/sites/all/modules/common/dm_switcher/mobile.png' width='16' height='16' style='border:0;padding-right:2px;vertical-align:bottom' alt='' /></a><a onclick='document.cookie="dm_switcher=mobile;path=/;expires=Tue, 01-01-2030 00:00:00 GMT";' href='http://mobiforge.mobi/design-development/html5-mobile-web-touch-events?dm_switcher=true'>Switch to our mobile site</a>&nbsp;&nbsp;
+                <a href="https://plus.google.com/116851852149998570484/posts" title="Follow mobiForge on Google+"><img src="/images/gplus-logo.gif" alt="Google+ icon" /></a> <a href="http://twitter.com/mobiforge" title="Follow mobiForge on Twitter"><img src="/files/twitter_rss.gif" alt="twitter icon" /></a> <a href="http://mobiforge.com/rssfeed" title="Follow mobiForge via RSS"><img src="/images/mini-rss-badge.gif?1" alt="RSS icon" /></a> <a href="http://mobiforge.com/rssfeed" title="Follow mobiForge via RSS">Follow us</a>
+
+            </div>
+        </div>
+
+        <div class="right span-32 last">
+            <ul><li class="first"><a href="/user/0/edit?destination=node%2F8041">Sign in</a></li><li><a href="/user/register">Sign up</a></li></ul>
+        </div>
+
+    </div>
+
+    <div id="wrapper" class="container">
+        <div id="logo-wrap" class="inside-container clearfix">
+            <div class="first left">
+                <div>
+                    <a href="/" id="logo-link">
+                        <!--
+                        <img width="180" height="48" title="mobiForge : Home" alt="mobiForge : Home" id="logo" src="/images/mf-xmas-180.jpg"/>
+                        -->
+                        <img height="36" width="180" title="mobiForge : Home" alt="mobiForge : Home" id="logo" src="/images/logo_180x36.jpg" />
+                    </a>
+
+                    <div class="advertisement group-tids-241" id="group-id-tids-241">
+                    <script type="text/javascript" src="http://mobiforge.com/sites/all/modules/non-core/ad/serve.php?q=1&amp;c=file&amp;f=15&amp;p=sites/mobiforge.com/files&amp;t=241"></script></div>
+                </div>
+            </div>
+
+            <div class="span-11 last" id="banner-right">
+                <form action="/search/node" accept-charset="UTF-8" method="post" id="search-block-form">
+                    <div>
+                        <div class="container-inline">
+                            <div class="form-item">
+                                <input type="text" maxlength="128" name="search_block_form_keys" id="edit-search-block-form-keys" size="15" value="" title="Enter the terms you wish to search for." class="form-text" />
+                            </div>
+                            <input type="submit" name="op" id="edit-submit" value="Search" class="form-submit" />
+                            <input type="hidden" name="form_id" id="edit-search-block-form" value="search_block_form" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+
+        <div id="nav" class="inside-container clearfix clear">
+            <div id="primary" class="span-33 first">
+
+
+                <ul class="main-nav meganizr mzr-class ">
+                    <li class='main-nav-item mzr-drop preactive'><a href='/latest'>Articles</a><div class='mzr-content drop-three-columns'>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/latest">All Articles</a></li>      <li><a href="/html5">HTML5</a></li>      <li><a href="/android">Android</a></li>      <li><a href="/iphone">iPhone</a></li>      <li><a href="/touch">Touch</a></li>      <li><a href="/content-adaptation">Content Adaptation</a></li>      <li><a href="/device-detection">Device Detection</a></li>    </ul>  </div>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/geolocation">Geolocation</a></li>      <li><a href="/messaging">Messaging</a></li>      <li><a href="/emulators">Emulators</a></li>      <li><a href="/responsive-design">Responsive Design</a></li>      <li><a href="/browsers">Browsers</a></li>      <li><a href="/usability">Usability</a></li>      <li><a href="/accessibility">Accessibility</a></li>    </ul>  </div>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/mcommerce">mCommerce</a></li>      <li><a href="/advertising">Advertising</a></li>      <li><a href="/authoring">Authoring</a></li>      <li><a href="/css">CSS</a></li>      <li><a href="/design-patterns">Design Patterns</a></li>      <li><a href="/mobile-design">Mobile Design</a></li>      <li><a href="/topics">More Topics &gt;&gt;&gt;</a></li>    </ul>  </div></div></li>
+                    <li class='main-nav-item mzr-drop active'><a href='/design-development'>Design & Development</a><div class='mzr-content drop-three-columns'>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/design-development">All Content</a></li>      <li><a href="/design-development/html5">HTML5</a></li>      <li><a href="/design-development/android">Android</a></li>      <li><a href="/design-development/iphone">iPhone</a></li>      <li><a href="/design-development/touch">Touch</a></li>      <li><a href="/design-development/content-adaptation">Content Adaptation</a></li>      <li><a href="/design-development/geolocation">Geolocation</a></li>    </ul>  </div>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/design-development/emulators">Emulators</a></li>      <li><a href="/design-development/messaging">Messaging</a></li>      <li><a href="/design-development/device-detection">Device Detection</a></li>      <li><a href="/design-development/responsive-design">Responsive Design</a></li>      <li><a href="/design-development/browsers">Browsers</a></li>      <li><a href="/design-development/usability">Usability</a></li>      <li><a href="/design-development/accessibility">Accessibility</a></li>    </ul>  </div>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/design-development/mcommerce">mCommerce</a></li>      <li><a href="/design-development/authoring">Authoring</a></li>      <li><a href="/design-development/css">CSS</a></li>      <li><a href="/design-development/design-patterns">Design Patterns</a></li>      <li><a href="/design-development/mobile-design">Mobile Design</a></li>      <li><a href="/design-development/best-practices">Best Practices</a></li>      <li><a href="/design-development/topics">More Topics &gt;&gt;&gt;</a></li>    </ul>  </div></div></li>
+                    <li class='main-nav-item mzr-drop'><a href='/research-analysis'>Research & Analysis</a><div class='mzr-content drop-three-columns'>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/research-analysis">All Content</a></li>      <li><a href="/research-analysis/content-adaptation">Content Adaptation</a></li>      <li><a href="/research-analysis/responsive-design">Responsive Design</a></li>      <li><a href="/research-analysis/geolocation">Geolocation</a></li>      <li><a href="/research-analysis/device-detection">Device Detection</a></li>      <li><a href="/research-analysis/usability">Usability</a></li>      <li><a href="/research-analysis/advertising">Advertising</a></li>    </ul>  </div>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/research-analysis/mcommerce">mCommerce</a></li>      <li><a href="/research-analysis/browsers">Browsers</a></li>      <li><a href="/research-analysis/authoring">Authoring</a></li>      <li><a href="/research-analysis/design-patterns">Design Patterns</a></li>      <li><a href="/research-analysis/mobile-design">Mobile Design</a></li>      <li><a href="/research-analysis/best-practices">Best Practices</a></li>      <li><a href="/research-analysis/community">Community</a></li>    </ul>  </div>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/research-analysis/standards">Standards</a></li>      <li><a href="/research-analysis/publishing">Publishing</a></li>      <li><a href="/research-analysis/tools">Tools</a></li>      <li><a href="/research-analysis/validation">Validation</a></li>      <li><a href="/research-analysis/quality-assurance">Quality Assurance</a></li>      <li><a href="/research-analysis/analytics">Analytics</a></li>    </ul>  </div></div></li>
+                    <li class='main-nav-item mzr-drop'><a href='/news-comment'>News & Comment</a><div class='mzr-content drop-three-columns'>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/news-comment">All Content</a></li>      <li><a href="/news-comment/html5">HTML5</a></li>      <li><a href="/news-comment/android">Android</a></li>      <li><a href="/news-comment/iphone">iPhone</a></li>      <li><a href="/news-comment/content-adaptation">Content Adaptation</a></li>      <li><a href="/news-comment/device-detection">Device Detection</a></li>      <li><a href="/news-comment/geolocation">Geolocation</a></li>    </ul>  </div>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/news-comment/messaging">Messaging</a></li>      <li><a href="/news-comment/responsive-design">Responsive Design</a></li>      <li><a href="/news-comment/browsers">Browsers</a></li>      <li><a href="/news-comment/usability">Usability</a></li>      <li><a href="/news-comment/mcommerce">mCommerce</a></li>      <li><a href="/news-comment/advertising">Advertising</a></li>      <li><a href="/news-comment/accessibility">Accessibility</a></li>    </ul>  </div>  <div class="one-col">    <ul class="sub-nav mzr-links">      <li><a href="/news-comment/authoring">Authoring</a></li>      <li><a href="/news-comment/design-patterns">Design Patterns</a></li>      <li><a href="/news-comment/mobile-design">Mobile Design</a></li>      <li><a href="/news-comment/best-practices">Best Practices</a></li>      <li><a href="/news-comment/community">Community</a></li>      <li><a href="/news-comment/apps">Apps</a></li>      <li><a href="/news-comment/topics">More Topics &gt;&gt;&gt;</a></li>    </ul>  </div></div></li>
+
+
+                </ul>
+            </div>
+
+            <div id="secondary" class="span-14 last">
+                <ul>
+                    <li><a href="/page/about-mobiforge">About</a></li>
+                    <li><a href="/page/write-us-0">Write for us</a></li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div id="content-home" class="inside-container clearfix">
+            <div id="content">
+
+                <div class="breadcrumb clearfix">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/design-development">Design &amp; Development</a></li>
+                        <li class="last"><a>HTML5 for the Mobile Web: Touch Events</a></li>
+                    </ul>
+
+                </div> <!-- .breadcrumb -->
+
+
+
+                <div class="screen mb20 clearfix">
+                    <div class="section first">
+                        <div class="inside">
+                            <article>
+                                <header>
+                                    <h1>HTML5 for the Mobile Web: Touch Events</h1>
+                                    <img id="feature-image" src="/img/wtl+photography_0.jpg/file/240/180/crop/true" width="240" height="180" alt="Finger touching feather" />                      <div id="att-container">
+                                        <div class="content-attribution">
+
+                                            <strong>Posted by ruadhan - 15 Aug 2013</strong>
+                                        </div>
+                                        <div id="sharing">
+                                            <a class="newWindow" href="https://twitter.com/intent/tweet?&amp;url=http%3A%2F%2Fmobiforge.com%2Fdesign-development%2Fhtml5-mobile-web-touch-events&amp;text=Shared+from+@mobiForge" title="Share with Twitter"><img src="/images/tw-16.png" alt="Twitter share icon" /></a>
+                                            <a class="newWindow" href="https://www.facebook.com/share.php?u=mobiforge.com/design-development/html5-mobile-web-touch-events" title="Share with Facebook"><img src="/images/fb-16x16.png" height="16" alt="Facebook share icon" /></a>
+                                            <a class="newWindow" href="https://plus.google.com/share?url=mobiforge.com/design-development/html5-mobile-web-touch-events" title="Share with Google Plus"><img src="/images/icon_googleplus_16.png" height="16" alt="Google Plus share icon" /></a>
+
+                                            <script>
+<!--
+var elements = document.getElementsByClassName("newWindow");
+for(var i=0;i<elements.length;i++){
+  elements.item(i).addEventListener("click", function (event){
+      var url = this.href;
+      var windowName = this.name;
+      window.open(url, windowName, "width=640,height=560,resizable=no");
+      event.preventDefault();
+  });
+}
+
+-->
+                                            </script>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <br />
+                                    <div id="related-block">
+                                        <div class="related-title">See also...</div>
+                                        <div class="related-content">
+                                            <ul>
+                                                <li><a href="/design-development/touch-friendly-drag-and-drop">Touch-friendly Drag and Drop</a></li>
+                                                <li><a href="/news-comment/developer-economics-take-survey-and-win">Developer Economics: take the survey and win</a></li>
+                                                <li><a href="/design-development/building-html5-games-firefox-os">Building HTML5 games for Firefox OS</a></li>
+                                                <li><a href="/design-development/html5-mobile-web-canvas">HTML5 for the Mobile Web: Canvas</a></li>
+                                                <li><a href="/design-development/html5-canvas-meme-generator">HTML5 Canvas Meme Generator</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </header>
+                                <p>With the widespread adoption of touchscreen devices, HTML5 brings to the table, among many other things, a set of touch-based interaction events. Mouse-based events such as hover, mouse in, mouse out etc. aren’t able to adequately capture the range of interactions possible via touchscreen, so touch events are a welcome and necessary addition to the web developer's toolbox.</p>
+
+                                <p>Use cases for the touch events API include gesture recognition, multi-touch, drag and drop, and any other touch-based interfaces.</p>
+
+
+                                <h2>The Touch Events API</h2>
+                                <p>
+                                    We'll get some of the technical details of the API out of the way first, before moving on to some real examples. The API is
+                                    defined in terms of <em>Touch</em>es, <em>TouchEvent</em>s, and <em>TouchList</em>s.
+                                </p>
+
+                                <p>Each <em>Touch</em> describes a touch point, and has the following attributes:</p>
+
+                                <table>
+                                    <tr><th>Attribute</th><th>Description</th></tr>
+                                    <tr class="odd"><td><span class="geshifilter"><code class="geshifilter-text">identifier</code></span></td><td>unique numeric identifier</td></tr>
+                                    <tr class="even"><td><span class="geshifilter"><code class="geshifilter-text">target</code></span></td><td>the DOM element that is the event target of the touch, even if the touch has moved outside of this element</td></tr>
+                                    <tr class="odd"><td><span class="geshifilter"><code class="geshifilter-text">screenX</code></span></td><td>horizontal coordinate relative to screen</td></tr>
+                                    <tr class="even"><td><span class="geshifilter"><code class="geshifilter-text">screenY</code></span></td><td>vertical coordinate relative to screen</td></tr>
+                                    <tr class="odd"><td><span class="geshifilter"><code class="geshifilter-text">clientX</code></span></td><td>horizontal coordinate of point relative to viewport, excluding scroll offset</td></tr>
+                                    <tr class="even"><td><span class="geshifilter"><code class="geshifilter-text">clientY</code></span></td><td>vertical coordinate of point relative to viewport, excluding scroll offset</td></tr>
+                                    <tr class="odd"><td><span class="geshifilter"><code class="geshifilter-text">pageX</code></span></td><td>horizontal coordinate of point relative to viewport, including scroll offset</td></tr>
+                                    <tr class="even"><td><span class="geshifilter"><code class="geshifilter-text">pageY</code></span></td><td>vertical coordinate of point relative to viewport, including scroll offset</td></tr>
+                                </table>
+
+
+
+                                <p>The main touch events defined in the specification are outlined in the table below. The target of the event is the element in which the touch was detected, even if the touch has moved outside this element.</p>
+
+                                <table>
+                                    <tr><th>Event</th><th>Description</th></tr>
+                                    <tr class="odd"><td><span class="geshifilter"><code class="geshifilter-text">touchstart</code></span></td><td>triggered when a touch is detected</td></tr>
+                                    <tr class="even"><td><span class="geshifilter"><code class="geshifilter-text">touchmove</code></span></td><td>triggered when a touch movement is detected</td></tr>
+                                    <tr class="odd"><td><span class="geshifilter"><code class="geshifilter-text">touchend</code></span></td><td>triggered when a touch is removed e.g. the user’s finger is removed from the touchscreen</td></tr>
+                                    <tr class="even"><td><span class="geshifilter"><code class="geshifilter-text">touchcancel</code></span></td><td>triggered when a touch is interrupted, e.g. if touch moves outside of the touch-capable area</td></tr>
+                                </table>
+
+
+
+                                <p>
+                                    Three lists of touches, <em>TouchList</em>s, are associated with each of the events. These are:
+
+                                    <table>
+                                        <tr><th>List</th><th>Description</th></tr>
+                                        <tr class="odd"><td><span class="geshifilter"><code class="geshifilter-text">touches</code></span></td><td>all current touches on the screen</td></tr>
+                                        <tr class="even"><td><span class="geshifilter"><code class="geshifilter-text">targetTouches</code></span></td><td>all current touches that started on the target element of the event</td></tr>
+                                        <tr class="odd"><td><span class="geshifilter"><code class="geshifilter-text">changedTouches</code></span></td><td>all touches involved in the current event</td></tr>
+                                    </table>
+                                </p>
+
+
+                                <h2>Touch Events example</h2>
+                                <p>We’ll cover just the basics in this example. There are plenty of more complex examples to be found on the web already, such as the <a href="http://paulirish.com/demo/multi" title="HTML5 canvas fingerpaint demo">canvas fingerpaint demo</a> by Paul Irish <em>et al</em>. Here we demonstrate simply how to capture and inspect a touch event. Of the available data from the API, we'll use only the <span class="geshifilter"><code class="geshifilter-text">touchstart</code></span> event, and the <span class="geshifilter"><code class="geshifilter-text">pageX</code></span> and <span class="geshifilter"><code class="geshifilter-text">pageY</code></span> attributes.</p>
+
+                                <p>First, some HTML. We define a <em>touch-sensitive</em> <span class="geshifilter"><code class="geshifilter-text">div</code></span> to which we will attach an event listener. We also define a <span class="geshifilter"><code class="geshifilter-text">div</code></span> at the top where we will display the screen coordinates of the most recent touch.</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-xml">  <span style="color: #009900;"><span style="font-weight: bold; color: black;">&lt;div</span> <span style="color: #000066;">id</span>=<span style="color: #ff0000;">&quot;coords&quot;</span><span style="font-weight: bold; color: black;">&gt;</span></span><span style="color: #009900;"><span style="font-weight: bold; color: black;">&lt;/div<span style="font-weight: bold; color: black;">&gt;</span></span></span>
+                                    <span style="color: #009900;"><span style="font-weight: bold; color: black;">&lt;div</span> <span style="color: #000066;">id</span>=<span style="color: #ff0000;">&quot;touchzone&quot;</span><span style="font-weight: bold; color: black;">&gt;</span></span><span style="color: #009900;"><span style="font-weight: bold; color: black;">&lt;/div<span style="font-weight: bold; color: black;">&gt;</span></span></span></pre>
+                                </div>
+
+                                <p>Next we add some JavaScript to register the event listener, and add a handler function to do something with the touch data:</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript"><span style="color: #003366; font-weight: bold;">function</span> init<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #009900; font-style: italic;">// Get a reference to our touch-sensitive element</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> touchzone = document.<span style="color: #006600;">getElementById</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchzone&quot;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #009900; font-style: italic;">// Add an event handler for the touchstart event</span>
+  touchzone.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchstart&quot;</span>, touchHandler, <span style="color: #003366; font-weight: bold;">false</span><span style="color: #66cc66;">&#41;</span>;
+<span style="color: #66cc66;">&#125;</span></pre>
+                                </div>
+
+                                <p>So, here we’re simply identifying the touchzone <span class="geshifilter"><code class="geshifilter-text">div</code></span>, attaching a listener for the <span class="geshifilter"><code class="geshifilter-text">touchstart</code></span> event, and registering a handler function: <span class="geshifilter"><code class="geshifilter-text">touchHandler</code></span>.</p>
+
+                                <p>In the <span class="geshifilter"><code class="geshifilter-text">touchHandler</code></span> function we grab the <span class="geshifilter"><code class="geshifilter-text">x</code></span> and <span class="geshifilter"><code class="geshifilter-text">y</code></span> coordinates of the touch, and write them to the coords div:</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript"><span style="color: #003366; font-weight: bold;">function</span> touchHandler<span style="color: #66cc66;">&#40;</span>event<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #009900; font-style: italic;">// Get a reference to our coordinates div</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> coords = document.<span style="color: #006600;">getElementById</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;coords&quot;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #009900; font-style: italic;">// Write the coordinates of the touch to the div</span>
+  coords.<span style="color: #006600;">innerHTML</span> = <span style="color: #3366CC;">'x: '</span> + event.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span> + <span style="color: #3366CC;">', y: '</span> + event.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span>;
+<span style="color: #66cc66;">&#125;</span></pre>
+                                </div>
+
+                                <p>And now we’re ready to go. If you are viewing this page on a device which supports touch events, you should be able to see the screen coordinates of your touches below.</p>
+
+                                <div style="width:50%;height:240px;float:left">
+                                    <h4>Live Demo - display touch coordinates</h4>
+                                    <p>Click the area to the right to activate the live demo. Depending on your device, you should be able to see the the coordinates of your touch points.</p><p> (<strong>Note</strong>: this demo, and the other demos on this page, are listening for touch AND mouse events, and so they should also work on non-touch enabled devices).</p>
+
+                                </div>
+                                <div style="width:50%;height:240px;float:right">
+
+                                    <div id="liveDemoRawData" style="display:none;margin:10px;">
+                                        <div id="touchzone"></div>
+                                        <div id="coords">
+                                            No touch data
+                                        </div>
+                                    </div>
+
+                                    <div style="text-align: center" id="rawDataLink">
+                                        <a href="" onclick="initTouch();return false;" rel="nofollow"><img src="/files/touch-me-300.jpg" style="border: 1px solid #ccc" width="300" alt="Touch inviting image" /></a>
+                                    </div>
+                                </div>
+
+
+                                <style type="text/css">
+                                    #touchzone {
+                                        width: 100%;
+                                        height: 169px;
+                                        border: 1px solid #ccc;
+                                    }
+
+                                    #coords {
+                                        font-size: 20px;
+                                        width: 100%;
+                                    }
+                                </style>
+
+                                <script>
+                                    function initTouch() {
+                                        var liveDemoRawData = document.getElementById('liveDemoRawData');
+                                        liveDemoRawData.style.display='block';
+                                        var rawDataLink = document.getElementById('rawDataLink');
+                                        rawDataLink.style.display='none';
+
+                                        var touchzone = document.getElementById("touchzone");
+                                        touchzone.addEventListener("touchstart", getCoords, false);
+                                        touchzone.addEventListener("mousedown", getCoordsMouse, false);
+                                    }
+
+                                    function getCoords(event) {
+                                        var coords = document.getElementById("coords");
+                                        coords.innerHTML = 'x: ' + event.touches[0].pageX + ', y: ' +event.touches[0].pageY;
+                                    }
+
+                                    function getCoordsMouse(event) {
+                                        var coords = document.getElementById("coords");
+                                        coords.innerHTML = 'x: ' + event.pageX + ', y: ' +event.pageY;
+                                    }
+
+                                </script>
+
+                                <h2>Display touches on screen</h2>
+
+                                <p>So now we know how to grab and display some basic touch data. Let's go one step further and display the touch position information visually, by displaying a dot on the screen at the point where it was touched.</p>
+
+                                <p>There are a couple of extra things we need to do to get this working. For the display, we'll make use of another HTML5 feature: the <em>canvas</em> element. We won't go into <em>canvas</em> in too much detail here as we'll cover it separately in an article later. For now, all we need to say about canvas is that it facilitates drawing graphics in a web page without much difficulty.</p>
+
+                                <p>To define the canvas element, we use the following (we've set the size, and added a border too):</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript">  <span style="color: #66cc66;">&lt;</span>canvas id=<span style="color: #3366CC;">&quot;mycanvas&quot;</span> width=<span style="color: #3366CC;">&quot;662&quot;</span> height=<span style="color: #3366CC;">&quot;373&quot;</span> style=<span style="color: #3366CC;">&quot;border: 1px solid #ccc&quot;</span><span style="color: #66cc66;">&gt;</span>
+    Canvas element not supported<span style="color: #66cc66;">&lt;</span>br <span style="color: #66cc66;">/&gt;</span>
+                                    <span style="color: #66cc66;">&lt;/</span>canvas<span style="color: #66cc66;">&gt;</span></pre>
+                                </div>
+
+                                <p>
+                                    We also need to modify the handler function from the last example, so that we now draw on this canvas element. To do this, we need to:
+                                    <ol class="numbered">
+                                        <li>
+                                            Find the canvas element in the DOM
+                                            <div class="geshifilter"><pre class="geshifilter-javascript">    <span style="color: #003366; font-weight: bold;">var</span> canvas = document.<span style="color: #006600;">getElementById</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">'mycanvas'</span><span style="color: #66cc66;">&#41;</span>;</pre></div>
+                                        </li>
+                                        <li>
+                                            Get the 2D drawing context from the canvas element; this provides the methods and properties we need to draw on the canvas
+                                            <div class="geshifilter"><pre class="geshifilter-javascript">    <span style="color: #003366; font-weight: bold;">var</span> ctx = canvas.<span style="color: #006600;">getContext</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;2d&quot;</span><span style="color: #66cc66;">&#41;</span>;</pre></div>
+                                        </li>
+                                        <li>
+                                            Use the drawing context to draw something; we'll draw a small rectangle
+                                            <div class="geshifilter"><pre class="geshifilter-javascript">    ctx.<span style="color: #006600;">fillRect</span><span style="color: #66cc66;">&#40;</span>event.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>-offset.<span style="color: #006600;">left</span>, event.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span>-offset.<span style="color: #006600;">top</span>, <span style="color: #CC0000;">5</span>, <span style="color: #CC0000;">5</span><span style="color: #66cc66;">&#41;</span>;</pre></div>
+                                        </li>
+                                    </ol>
+
+                                <p>That's it! The full code is displayed below:</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript"><span style="color: #66cc66;">&lt;!</span>DOCTYPE html<span style="color: #66cc66;">&gt;</span>
+<span style="color: #66cc66;">&lt;</span>html<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>head<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>title<span style="color: #66cc66;">&gt;</span>HTML5 input <span style="color: #66cc66;">&lt;/</span>title<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>script<span style="color: #66cc66;">&gt;</span>
+&nbsp;
+                                    <span style="color: #003366; font-weight: bold;">function</span> init<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> touchzone = document.<span style="color: #006600;">getElementById</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;mycanvas&quot;</span><span style="color: #66cc66;">&#41;</span>;
+      touchzone.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchstart&quot;</span>, draw, <span style="color: #003366; font-weight: bold;">false</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+&nbsp;
+                                    <span style="color: #003366; font-weight: bold;">function</span> draw<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> canvas = document.<span style="color: #006600;">getElementById</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">'mycanvas'</span><span style="color: #66cc66;">&#41;</span>;
+&nbsp;
+                                    <span style="color: #000066; font-weight: bold;">if</span><span style="color: #66cc66;">&#40;</span>canvas.<span style="color: #006600;">getContext</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> ctx = canvas.<span style="color: #006600;">getContext</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;2d&quot;</span><span style="color: #66cc66;">&#41;</span>;
+        ctx.<span style="color: #006600;">fillRect</span> <span style="color: #66cc66;">&#40;</span>event.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>, event.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span>, <span style="color: #CC0000;">5</span>, <span style="color: #CC0000;">5</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+                                    <span style="color: #66cc66;">&#125;</span>
+                                    <span style="color: #66cc66;">&lt;/</span>script<span style="color: #66cc66;">&gt;</span>
+&nbsp;
+                                    <span style="color: #66cc66;">&lt;/</span>head<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>body <span style="color: #000066;">onload</span>=<span style="color: #3366CC;">&quot;init()&quot;</span><span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>canvas id=<span style="color: #3366CC;">&quot;mycanvas&quot;</span> width=<span style="color: #3366CC;">&quot;500&quot;</span> height=<span style="color: #3366CC;">&quot;500&quot;</span><span style="color: #66cc66;">&gt;</span>
+      Canvas element not supported.
+                                    <span style="color: #66cc66;">&lt;/</span>canvas<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;/</span>body<span style="color: #66cc66;">&gt;</span>
+<span style="color: #66cc66;">&lt;/</span>html<span style="color: #66cc66;">&gt;</span></pre>
+                                </div>
+
+
+
+                                <p>Touch the image below to activate the live demo, and then touch the area below to display your touches!</p>
+
+                                <script>
+                                    function initTouchCanvas() {
+                                        var datadiv = document.getElementById('datadiv');
+                                        datadiv.style.display = 'none';
+                                        var canvas = document.getElementById("mycanvas");
+                                        canvas.style.display = 'block';
+                                        canvas.addEventListener("touchstart", draw, false);
+                                        canvas.addEventListener("mousedown", drawMouse, false);
+
+                                    }
+
+
+
+                                    function draw(event) {
+
+                                        var canvas = document.getElementById('mycanvas');
+                                        var offset  = getOffset(canvas);
+                                        var datadiv = document.getElementById('datadiv');
+                                        //datadiv.innerHTML = 'offsetLeft: ' + offset.left + ', offsetTop: ' + offset.top;
+                                        if (canvas.getContext) {
+                                            var ctx = canvas.getContext("2d");
+
+
+                                            ctx.fillStyle = '#ff0000';
+                                            ctx.fillRect(event.touches[0].pageX-offset.left, event.touches[0].pageY-offset.top, 5, 5);
+
+
+                                        }
+                                    }
+
+                                    function drawMouse(event) {
+
+                                        var canvas = document.getElementById('mycanvas');
+                                        var offset  = getOffset(canvas);
+                                        var datadiv = document.getElementById('datadiv');
+
+                                        if (canvas.getContext) {
+                                            var ctx = canvas.getContext("2d");
+
+                                            ctx.fillStyle = '#ff0000';
+                                            ctx.fillRect(event.pageX-offset.left, event.pageY-offset.top, 5, 5);
+
+                                        }
+                                    }
+
+
+                                    function getOffset(obj) {
+                                        var offsetLeft = 0;
+                                        var offsetTop = 0;
+                                        do {
+                                            if (!isNaN(obj.offsetLeft)) {
+                                                offsetLeft += obj.offsetLeft;
+                                            }
+                                            if (!isNaN(obj.offsetTop)) {
+                                                offsetTop += obj.offsetTop;
+                                            }
+                                        } while(obj = obj.offsetParent );
+                                        return {left: offsetLeft, top: offsetTop};
+                                    }
+
+                                </script>
+
+                                <canvas id="mycanvas" width="662" height="373" style="border: 1px solid #ccc;display: none">
+                                    Canvas element not supported<br />
+                                </canvas>
+                                <br />
+                                <!-- <div id="datadiv" style="width:100%;height:30px"> -->
+                                <div id="datadiv">
+                                    <a href="" onclick="initTouchCanvas();return false;" rel="nofollow"><img src="/files/touch-canvas.jpg" width="662" style="border:1px solid #ccc" alt="Red dots on screen" /></a>
+                                </div>
+
+
+                                <h2>Touch coordinate and screen coordinate conversion</h2>
+                                <p>A short note on coordinates and element positions. There is a small trick - to do with coordinate frames - that was glossed over in the above example. The above example will work fine if the canvas element is the only element on the page, and it is aligned with the top left of the page. However, most of the time in your webapps the element that you are interested in will not benefit for the luxury of sitting in this top-leftmost position - more likely it will be embedded in the page some distance down and across. That is, it will be offset by a certain amount from the left of the viewport, and a certain amount from the top of the viewport. We can call these values <em>offsetLeft</em> and <em>offsetTop</em> respectively.</p>
+
+                                <p>These values must be taken into account when we want to convert the reported touch event coordinates to usable screen coordinates. Incorporating the offset is quite simple; we use something like <span class="geshifilter"><code class="geshifilter-text">touch.pageX-offsetLeft</code></span>, and <span class="geshifilter"><code class="geshifilter-text">touch.pageY-offsetTop</code></span>. So how do we get the offsets? To do this, I refer to the method outlined on the <a href="http://www.quirksmode.org/js/findpos.html" title="Calculate element offsets">Quirskmode blog</a>. The trick is to start with the element we are interested in, and to traverse up the DOM tree, accumulating the offset of each element from its parent until the top is reached. Then we have the total offset that we can use in our app.</p>
+
+                                <p>A function to compute this offset looks like this:</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript"><span style="color: #003366; font-weight: bold;">function</span> getOffset<span style="color: #66cc66;">&#40;</span>obj<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> offsetLeft = <span style="color: #CC0000;">0</span>;
+                                    <span style="color: #003366; font-weight: bold;">var</span> offsetTop = <span style="color: #CC0000;">0</span>;
+                                    <span style="color: #000066; font-weight: bold;">do</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #000066; font-weight: bold;">if</span> <span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">!</span>isNaN<span style="color: #66cc66;">&#40;</span>obj.<span style="color: #006600;">offsetLeft</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+      offsetLeft += obj.<span style="color: #006600;">offsetLeft</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+                                    <span style="color: #000066; font-weight: bold;">if</span> <span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">!</span>isNaN<span style="color: #66cc66;">&#40;</span>obj.<span style="color: #006600;">offsetTop</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+      offsetTop += obj.<span style="color: #006600;">offsetTop</span>;
+                                    <span style="color: #66cc66;">&#125;</span>	  
+                                    <span style="color: #66cc66;">&#125;</span> <span style="color: #000066; font-weight: bold;">while</span><span style="color: #66cc66;">&#40;</span>obj = obj.<span style="color: #006600;">offsetParent</span> <span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #000066; font-weight: bold;">return</span> <span style="color: #66cc66;">&#123;</span>left: offsetLeft, top: offsetTop<span style="color: #66cc66;">&#125;</span>;
+<span style="color: #66cc66;">&#125;</span></pre>
+                                </div>
+
+                                </p>
+
+                                <h2>From single touches to swipes and gestures: the touchmove event</h2>
+                                <p>In the last example we saw how we could visualise single touches as dots, using the <span class="geshifilter"><code class="geshifilter-text">canvas</code></span> element and the touchstart event. Now we'll take a look at what we can do when we add the <span class="geshifilter"><code class="geshifilter-text">touchmove</code></span> event into the mix. The <span class="geshifilter"><code class="geshifilter-text">touchstart</code></span> event was useful to capture single point touches. But with <span class="geshifilter"><code class="geshifilter-text">touchmove</code></span> we can capture swipes and other gestures.</p>
+
+                                <p>The first thing we can try is to simply use the touchmove event in place of the touchstart event, and leave the rest of our code the same. So, each time the touchmove event is fired during a touch, we will draw a dot (small rectangle) at the point reported by the event. This should, in theory, trace out the entire touch as a path on the screen.</p>
+
+                                <p>In our init function, we will have:</p>
+
+                                <div class="geshifilter"><pre class="geshifilter-javascript">    canvas.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchmove&quot;</span>, draw, <span style="color: #003366; font-weight: bold;">false</span><span style="color: #66cc66;">&#41;</span>;</pre></div>
+
+                                <img src="/files/touchmove-dots.jpg" width="400" align="right" style="float:right; border: 1px solid #ccc; margin:10px" alt="Wavey path made of dots" />
+
+                                <p>So we can now draw freeform shapes. However, because we are only drawing points, if we move too fast, then the result will be a broken path, as depicted in the image on the right.</p>
+
+
+                                <p>If we want instead a nice continuous path, we need to be a little smarter. Instead of simply drawing a dot at the reported touch position, we draw a line between the last two touchpoints. This should fill the gaps we saw in the image above. We can achieve this with the code below:</p>
+
+
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript">      ctx.<span style="color: #006600;">beginPath</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #009900; font-style: italic;">// Start at previous point</span>
+      ctx.<span style="color: #006600;">moveTo</span><span style="color: #66cc66;">&#40;</span>lastPt.<span style="color: #006600;">x</span>, lastPt.<span style="color: #006600;">y</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #009900; font-style: italic;">// Line to latest point</span>
+      ctx.<span style="color: #006600;">lineTo</span><span style="color: #66cc66;">&#40;</span>e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>, e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #009900; font-style: italic;">// Draw it!</span>
+      ctx.<span style="color: #006600;">stroke</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+&nbsp;
+                                    <span style="color: #009900; font-style: italic;">//Store latest touchpoint</span>
+      lastPt = <span style="color: #66cc66;">&#123;</span>x:e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>, y:e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span><span style="color: #66cc66;">&#125;</span>;</pre>
+                                </div>
+
+                                <img src="/files/touchmove-joined-paths.jpg" width="400" align="right" style="float:right;border: 1px solid #ccc; margin:10px" alt="Three green wavey lines" />
+
+                                <p>Finally, we don't want to continue the path we are drawing across separate touches where the finger has been lifted from the screen, or we will end up with all paths joined up - as shown in the image to the right, in which there are three separate paths that are incorrectly joined. For this, we need to figure out when the touch has ended, and to terminate the path we are drawing. Enter the <em>touchend</em> event!</p>
+
+                                <p>First, we will register a handler function for the <span class="geshifilter"><code class="geshifilter-text">touchend</code></span> event. In this function, we need to perform any necessary actions that should occur at the end of the touch. In this case we are drawing the path of the touches on the screen, so for the <span class="geshifilter"><code class="geshifilter-text">touchend</code></span> event, we need to terminate the current path, and to ensure that it is not associated with the next touch that occurs.</p>
+
+                                <p>So, to attach the handler:</p>
+
+                                <div class="geshifilter"><pre class="geshifilter-javascript">  touchzone.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchend&quot;</span>, endTouch, <span style="color: #003366; font-weight: bold;">false</span><span style="color: #66cc66;">&#41;</span>;</pre></div>
+
+                                <p>In our example, whenever the touchmove event is triggered, we store the last point so that we can join up the last two points. So, to end the path of a touch, we simply <em>forget</em> about the last point by setting it to null:</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript">  <span style="color: #003366; font-weight: bold;">function</span> endTouch<span style="color: #66cc66;">&#40;</span>e<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+    e.<span style="color: #006600;">preventDefault</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+    lastPt=<span style="color: #003366; font-weight: bold;">null</span>;
+                                    <span style="color: #66cc66;">&#125;</span></pre>
+                                </div>
+
+                                <p>The full code then for the example is:</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript"><span style="color: #66cc66;">&lt;!</span>DOCTYPE html<span style="color: #66cc66;">&gt;</span>
+<span style="color: #66cc66;">&lt;</span>html<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>head<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>title<span style="color: #66cc66;">&gt;</span>HTML5 Touch Tracing <span style="color: #66cc66;">&lt;/</span>title<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>script<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> canvas;
+                                    <span style="color: #003366; font-weight: bold;">var</span> ctx;
+                                    <span style="color: #003366; font-weight: bold;">var</span> lastPt=<span style="color: #003366; font-weight: bold;">null</span>;
+&nbsp;
+                                    <span style="color: #003366; font-weight: bold;">function</span> init<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> touchzone = document.<span style="color: #006600;">getElementById</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;mycanvas&quot;</span><span style="color: #66cc66;">&#41;</span>;
+        touchzone.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchmove&quot;</span>, draw, <span style="color: #003366; font-weight: bold;">false</span><span style="color: #66cc66;">&#41;</span>;
+        touchzone.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchend&quot;</span>, end, <span style="color: #003366; font-weight: bold;">false</span><span style="color: #66cc66;">&#41;</span>;
+        ctx = touchzone.<span style="color: #006600;">getContext</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;2d&quot;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+&nbsp;
+                                    <span style="color: #003366; font-weight: bold;">function</span> draw<span style="color: #66cc66;">&#40;</span>e<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+        e.<span style="color: #006600;">preventDefault</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #000066; font-weight: bold;">if</span><span style="color: #66cc66;">&#40;</span>lastPt<span style="color: #66cc66;">!</span>=<span style="color: #003366; font-weight: bold;">null</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+          ctx.<span style="color: #006600;">beginPath</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+          ctx.<span style="color: #006600;">moveTo</span><span style="color: #66cc66;">&#40;</span>lastPt.<span style="color: #006600;">x</span>, lastPt.<span style="color: #006600;">y</span><span style="color: #66cc66;">&#41;</span>;
+          ctx.<span style="color: #006600;">lineTo</span><span style="color: #66cc66;">&#40;</span>e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>, e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span><span style="color: #66cc66;">&#41;</span>;
+          ctx.<span style="color: #006600;">stroke</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+        lastPt = <span style="color: #66cc66;">&#123;</span>x:e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>, y:e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span><span style="color: #CC0000;">0</span><span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span><span style="color: #66cc66;">&#125;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+&nbsp;
+                                    <span style="color: #003366; font-weight: bold;">function</span> end<span style="color: #66cc66;">&#40;</span>e<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+        e.<span style="color: #006600;">preventDefault</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #009900; font-style: italic;">// Terminate touch path</span>
+        lastPt=<span style="color: #003366; font-weight: bold;">null</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+                                    <span style="color: #66cc66;">&lt;/</span>script<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;/</span>head<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>body <span style="color: #000066;">onload</span>=<span style="color: #3366CC;">&quot;init()&quot;</span><span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>canvas id=<span style="color: #3366CC;">&quot;mycanvas&quot;</span> width=<span style="color: #3366CC;">&quot;500&quot;</span> height=<span style="color: #3366CC;">&quot;500&quot;</span><span style="color: #66cc66;">&gt;</span>
+      Canvas element not supported.
+                                    <span style="color: #66cc66;">&lt;/</span>canvas<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;/</span>body<span style="color: #66cc66;">&gt;</span>
+<span style="color: #66cc66;">&lt;/</span>html<span style="color: #66cc66;">&gt;</span></pre>
+                                </div>
+
+                                <p>Activate the touchmove example by touching the purple bumblebee, and draw something in the box below.</p>
+
+                                <script>
+
+                                    var touchmovezone;
+                                    var touchmovectx;
+                                    var lastPt=null;
+
+                                    function initTouchMoveCanvas() {
+                                        touchmovelink = document.getElementById("touchmovelink");
+                                        touchmovezone = document.getElementById("touchmovezone");
+                                        touchmovelink.style.display = 'none';
+                                        touchmovezone.style.display = 'block';
+
+                                        touchmovezone.addEventListener("touchmove", drawtouchmove, false);
+                                        touchmovezone.addEventListener("touchend", endtouchmove, false);
+
+                                        touchmovezone.addEventListener("mousedown", function() {
+                                            touchmovezone.addEventListener("mousemove", drawmousemove, false);
+                                        }
+                                        , false);
+                                        touchmovezone.addEventListener("mouseup", endmousemove, false);
+                                        touchmovectx = touchmovezone.getContext("2d");
+
+                                    }
+
+                                    function drawtouchmove(e) {
+                                        e.preventDefault();
+                                        var offset  = getOffset(touchmovezone);
+                                        if(lastPt!=null) {
+                                            touchmovectx.beginPath();
+                                            touchmovectx.moveTo(lastPt.x-offset.left, lastPt.y-offset.top);
+                                            touchmovectx.lineTo(e.touches[0].pageX-offset.left, e.touches[0].pageY-offset.top);
+                                            touchmovectx.strokeStyle = 'purple';
+                                            touchmovectx.lineWidth = 3;
+                                            touchmovectx.stroke();
+                                        }
+                                        lastPt = {x:e.touches[0].pageX, y:e.touches[0].pageY};
+                                    }
+
+
+                                    function drawmousemove(e) {
+
+                                        e.preventDefault();
+                                        var offset  = getOffset(touchmovezone);
+                                        if(lastPt!=null) {
+                                            touchmovectx.beginPath();
+                                            touchmovectx.moveTo(lastPt.x-offset.left, lastPt.y-offset.top);
+                                            touchmovectx.lineTo(e.pageX-offset.left, e.pageY-offset.top);
+                                            touchmovectx.strokeStyle = 'purple';
+                                            touchmovectx.lineWidth = 3;
+                                            touchmovectx.stroke();
+                                        }
+                                        lastPt = {x:e.pageX, y:e.pageY};
+                                    }
+
+                                    function endtouchmove(e) {
+                                        e.preventDefault();
+                                        lastPt = null;
+                                    }
+
+                                    function endmousemove(e) {
+                                        e.preventDefault();
+                                        touchmovezone.removeEventListener("mousemove", drawmousemove, false);
+                                        lastPt = null;
+                                    }
+
+
+                                </script>
+
+                                <canvas id="touchmovezone" width="662" height="373" style="border: 1px solid #ccc;display: none">
+                                    Canvas element not supported<br />
+                                </canvas>
+                                <br />
+                                <!-- <div id="touchmovelink" style="width:100%;height:30px"> -->
+                                <div id="touchmovelink">
+                                    <a href="" onclick="initTouchMoveCanvas();return false;" rel="nofollow"><img src="/files/touchmovebee.jpg" width="662" style="border:1px solid #ccc" alt="Purple bumblebee drawn on touch screen" /></a>
+                                </div>
+
+
+
+                                <h2>HTML5 multi-touch example</h2>
+                                <p>So, now we can handle single touches and swipes, what about mutliple simultaneous touch interactions, or, in the parlance of our times, <em>multi-touch</em>?</p>
+
+                                <p>We can determine the number of touch events by checking the length of the list of touches, using <span class="geshifilter"><code class="geshifilter-text">e.touches.length</code></span>. In the previous examples we assumed just one touch, and so we referenced <span class="geshifilter"><code class="geshifilter-text">touches[0]</code></span> to get at the data for this touch. So, to add multi-touch support to our demo, we can iterate over the <span class="geshifilter"><code class="geshifilter-text">touches</code></span> array, and perform an appropriate action for each of the touches in the array. This amounts to wrapping our previous code in a loop, and instead of storing the last point for a single touch, we store an array of the last points for all the registered touches.</p>
+
+                                <p>Finally, to help the visualisation, we'll add a splash of colour with:</p>
+
+                                <div class="geshifilter"><pre class="geshifilter-javascript">  <span style="color: #003366; font-weight: bold;">var</span> colours = <span style="color: #66cc66;">&#91;</span><span style="color: #3366CC;">'red'</span>, <span style="color: #3366CC;">'green'</span>, <span style="color: #3366CC;">'blue'</span>, <span style="color: #3366CC;">'yellow'</span>, <span style="color: #3366CC;">'black'</span><span style="color: #66cc66;">&#93;</span>;</pre></div>
+
+                                <p>Then we can set the colour of a line with:</p>
+                                <div class="geshifilter"><pre class="geshifilter-javascript">   ctx.<span style="color: #006600;">strokeStyle</span> = colours<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span>;</pre></div>
+
+                                <p>Maintaining the list of latest points is a little trickier when when want to know which touch path to terminate. For this we can make use of the <span class="geshifilter"><code class="geshifilter-text">identifier</code></span> attribute of the <span class="geshifilter"><code class="geshifilter-text">touch</code></span> object. We will maintain an associative array of the last points of all touches, keyed by the identifier attribute of the respective touch.</p>
+
+                                <p>We define our associative array as an Object:</p>
+
+                                <div class="geshifilter"><pre class="geshifilter-javascript"><span style="color: #003366; font-weight: bold;">var</span> lastPt = <span style="color: #003366; font-weight: bold;">new</span> Object<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;</pre></div>
+
+                                <p>We can get the identifier of a touch with:</p>
+                                <div class="geshifilter"><pre class="geshifilter-javascript">  <span style="color: #003366; font-weight: bold;">var</span> id = e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">identifier</span>;</pre></div>
+
+
+                                <p>And we can add new items into the array, using the touch identifier as the key, with:</p>
+
+                                <div class="geshifilter"><pre class="geshifilter-javascript">lastPt<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span> = <span style="color: #66cc66;">&#123;</span>x:e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>, y:e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span><span style="color: #66cc66;">&#125;</span>;</pre></div>
+
+
+                                <p>Finally, we need to remove entries in the array when we detect the touchend event. To do this, we make use of the <span class="geshifilter"><code class="geshifilter-text">changedTouches</code></span> touchList. This array includes all the touches associated with the current event. So, when we detect the touchend event, we can iterate over this array, and remove the entries in the <span class="geshifilter"><code class="geshifilter-text">lastPt</code></span> associative array that match the identifiers of the touches in the changeTouches array:</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript">  <span style="color: #003366; font-weight: bold;">function</span> end<span style="color: #66cc66;">&#40;</span>e<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+    e.<span style="color: #006600;">preventDefault</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #000066; font-weight: bold;">for</span><span style="color: #66cc66;">&#40;</span><span style="color: #003366; font-weight: bold;">var</span> i=<span style="color: #CC0000;">0</span>;i<span style="color: #66cc66;">&lt;</span>e.<span style="color: #006600;">changedTouches</span>.<span style="color: #006600;">length</span>;i++<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> id = e.<span style="color: #006600;">changedTouches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">identifier</span>;
+                                    <span style="color: #000066; font-weight: bold;">delete</span> lastPt<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+                                    <span style="color: #66cc66;">&#125;</span></pre>
+                                </div>
+
+
+                                <p>The full code listing is below:</p>
+
+                                <div class="geshifilter">
+                                    <pre class="geshifilter-javascript"><span style="color: #66cc66;">&lt;!</span>DOCTYPE html<span style="color: #66cc66;">&gt;</span>
+<span style="color: #66cc66;">&lt;</span>html<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>head<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>title<span style="color: #66cc66;">&gt;</span>HTML5 multi-touch<span style="color: #66cc66;">&lt;/</span>title<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>script<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> canvas;
+                                    <span style="color: #003366; font-weight: bold;">var</span> ctx;
+                                    <span style="color: #003366; font-weight: bold;">var</span> lastPt = <span style="color: #003366; font-weight: bold;">new</span> Object<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #003366; font-weight: bold;">var</span> colours = <span style="color: #66cc66;">&#91;</span><span style="color: #3366CC;">'red'</span>, <span style="color: #3366CC;">'green'</span>, <span style="color: #3366CC;">'blue'</span>, <span style="color: #3366CC;">'yellow'</span>, <span style="color: #3366CC;">'black'</span><span style="color: #66cc66;">&#93;</span>;
+&nbsp;
+                                    <span style="color: #003366; font-weight: bold;">function</span> init<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> touchzone = document.<span style="color: #006600;">getElementById</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;mycanvas&quot;</span><span style="color: #66cc66;">&#41;</span>;
+      touchzone.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchmove&quot;</span>, draw, <span style="color: #003366; font-weight: bold;">false</span><span style="color: #66cc66;">&#41;</span>;
+      touchzone.<span style="color: #006600;">addEventListener</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;touchend&quot;</span>, end, <span style="color: #003366; font-weight: bold;">false</span><span style="color: #66cc66;">&#41;</span>;	  
+      canvas = document.<span style="color: #006600;">getElementById</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">'mycanvas'</span><span style="color: #66cc66;">&#41;</span>;
+      ctx = canvas.<span style="color: #006600;">getContext</span><span style="color: #66cc66;">&#40;</span><span style="color: #3366CC;">&quot;2d&quot;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+&nbsp;
+                                    <span style="color: #003366; font-weight: bold;">function</span> draw<span style="color: #66cc66;">&#40;</span>e<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+      e.<span style="color: #006600;">preventDefault</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+&nbsp;
+                                    <span style="color: #009900; font-style: italic;">//Iterate over all touches</span>
+                                    <span style="color: #000066; font-weight: bold;">for</span><span style="color: #66cc66;">&#40;</span><span style="color: #003366; font-weight: bold;">var</span> i=<span style="color: #CC0000;">0</span>;i<span style="color: #66cc66;">&lt;</span>e.<span style="color: #006600;">touches</span>.<span style="color: #006600;">length</span>;i++<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> id = e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">identifier</span>;	  
+                                    <span style="color: #000066; font-weight: bold;">if</span><span style="color: #66cc66;">&#40;</span>lastPt<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+          ctx.<span style="color: #006600;">beginPath</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+          ctx.<span style="color: #006600;">moveTo</span><span style="color: #66cc66;">&#40;</span>lastPt<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">x</span>, lastPt<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">y</span><span style="color: #66cc66;">&#41;</span>;
+          ctx.<span style="color: #006600;">lineTo</span><span style="color: #66cc66;">&#40;</span>e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>, e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span><span style="color: #66cc66;">&#41;</span>;
+          ctx.<span style="color: #006600;">strokeStyle</span> = colours<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span>;
+          ctx.<span style="color: #006600;">stroke</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+&nbsp;
+                                    <span style="color: #66cc66;">&#125;</span>
+                                    <span style="color: #009900; font-style: italic;">// Store last point</span>
+        lastPt<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span> = <span style="color: #66cc66;">&#123;</span>x:e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageX</span>, y:e.<span style="color: #006600;">touches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">pageY</span><span style="color: #66cc66;">&#125;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+                                    <span style="color: #66cc66;">&#125;</span>
+&nbsp;
+                                    <span style="color: #003366; font-weight: bold;">function</span> end<span style="color: #66cc66;">&#40;</span>e<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+    e.<span style="color: #006600;">preventDefault</span><span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>;
+                                    <span style="color: #000066; font-weight: bold;">for</span><span style="color: #66cc66;">&#40;</span><span style="color: #003366; font-weight: bold;">var</span> i=<span style="color: #CC0000;">0</span>;i<span style="color: #66cc66;">&lt;</span>e.<span style="color: #006600;">changedTouches</span>.<span style="color: #006600;">length</span>;i++<span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+                                    <span style="color: #003366; font-weight: bold;">var</span> id = e.<span style="color: #006600;">changedTouches</span><span style="color: #66cc66;">&#91;</span>i<span style="color: #66cc66;">&#93;</span>.<span style="color: #006600;">identifier</span>;
+                                    <span style="color: #009900; font-style: italic;">// Terminate this touch</span>
+                                    <span style="color: #000066; font-weight: bold;">delete</span> lastPt<span style="color: #66cc66;">&#91;</span>id<span style="color: #66cc66;">&#93;</span>;
+                                    <span style="color: #66cc66;">&#125;</span>
+                                    <span style="color: #66cc66;">&#125;</span>  
+&nbsp;
+                                    <span style="color: #66cc66;">&lt;/</span>script<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;/</span>head<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>body <span style="color: #000066;">onload</span>=<span style="color: #3366CC;">&quot;init()&quot;</span><span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;</span>canvas id=<span style="color: #3366CC;">&quot;mycanvas&quot;</span> width=<span style="color: #3366CC;">&quot;500&quot;</span> height=<span style="color: #3366CC;">&quot;500&quot;</span><span style="color: #66cc66;">&gt;</span>
+      Canvas element not supported.
+                                    <span style="color: #66cc66;">&lt;/</span>canvas<span style="color: #66cc66;">&gt;</span>
+                                    <span style="color: #66cc66;">&lt;/</span>body<span style="color: #66cc66;">&gt;</span>
+<span style="color: #66cc66;">&lt;/</span>html<span style="color: #66cc66;">&gt;</span></pre>
+                                </div>
+
+                                <p>Touch the squiggly lines below to activate the live multitouch demo; then move multiple fingers around the screen at the same time! </p>
+
+                                <script>
+
+                                    var multitouchzone;
+                                    var multitouchctx;
+                                    var multiMouseLast;
+                                    var countMouse = 0;
+                                    var multiLastPt=new Object();
+                                    var colours = ['red', 'green', 'blue', 'yellow','black'];
+
+
+                                    function initMultiTouchCanvas() {
+                                        multitouchzone = document.getElementById("multitouchzone");
+                                        multitouchlink = document.getElementById("multitouchlink");
+                                        multitouchlink.style.display = 'none';
+                                        multitouchzone.style.display = 'block';
+                                        multitouchzone.addEventListener("touchmove", drawmultitouch, false);
+                                        multitouchzone.addEventListener("touchend", endmultitouch, false);
+
+                                        multitouchzone.addEventListener("mousedown", function() {
+                                            multitouchzone.addEventListener("mousemove", drawmultimouse, false);
+                                        }
+                                        , false);
+                                        multitouchzone.addEventListener("mouseup", endmultimouse, false);
+
+                                        multitouchctx = multitouchzone.getContext("2d");
+
+                                    }
+
+                                    function drawmultitouch(e) {
+                                        e.preventDefault();
+                                        var offset  = getOffset(multitouchzone);
+                                        for(var i=0;i<e.touches.length;i++) {
+                                            var id = e.touches[i].identifier;
+                                            if(multiLastPt[id]) {
+                                                multitouchctx.beginPath();
+                                                multitouchctx.moveTo(multiLastPt[id].x-offset.left, multiLastPt[id].y-offset.top);
+                                                multitouchctx.lineTo(e.touches[i].pageX-offset.left, e.touches[i].pageY-offset.top);
+                                                multitouchctx.strokeStyle = colours[id%5];
+                                                multitouchctx.lineWidth = 3;
+                                                multitouchctx.stroke();
+                                            }
+                                            multiLastPt[id] = {x:e.touches[i].pageX, y:e.touches[i].pageY};
+                                        }
+                                    }
+
+
+
+
+                                    function endmultitouch(e) {
+                                        e.preventDefault();
+                                        for(var i=0;i<e.changedTouches.length;i++) {
+                                            var id = e.changedTouches[i].identifier;
+                                            delete multiLastPt[id];
+                                        }
+                                    }
+
+                                    function endmultimouse(e) {
+                                        e.preventDefault();
+                                        countMouse = (countMouse+1)%5;
+                                        multitouchzone.removeEventListener("mousemove", drawmultimouse, false);
+                                        multiMouseLast = null;
+                                    }
+
+
+                                    function drawmultimouse(e) {
+
+                                        e.preventDefault();
+                                        var offset  = getOffset(multitouchzone);
+                                        if(multiMouseLast!=null) {
+                                            multitouchctx.beginPath();
+                                            multitouchctx.moveTo(multiMouseLast.x-offset.left, multiMouseLast.y-offset.top);
+                                            multitouchctx.lineTo(e.pageX-offset.left, e.pageY-offset.top);
+                                            multitouchctx.strokeStyle = colours[countMouse];
+                                            multitouchctx.lineWidth = 3;
+                                            multitouchctx.stroke();
+                                        }
+                                        multiMouseLast = {x:e.pageX, y:e.pageY};
+                                    }
+
+
+
+                                </script>
+
+
+
+
+                                <canvas id="multitouchzone" width="662" height="373" style="border: 1px solid #ccc;display: none">
+                                    Canvas element not supported<br />
+                                </canvas>
+                                <br />
+                                <!-- <div id="touchmovelink" style="width:100%;height:30px"> -->
+                                <div id="multitouchlink">
+                                    <a href="" onclick="initMultiTouchCanvas();return false;" rel="nofollow"><img src="/files/multitouch.jpg" width="662" style="border:1px solid #ccc" alt="Three squiggly lines on phone screen" /></a>
+                                </div>
+
+
+                                <h2>Browser support and fallbacks</h2>
+                                <p>Touch events are widely supported among mobile devices. However, unless specifically targeting touch devices, a fallback should be implemented when touchevents are not supported. In these cases, the traditional click etc. events can be bound to, but as discussed below, care is needed when deciding which events to support instead of the touch events.</p>
+
+                                <p class="image-caption">
+                                    <style>
+                                        #html5-compat td.yes {
+                                            background-color: #0f0;
+                                        }
+
+                                        #html5-compat td.no {
+                                            background-color: #f00;
+                                        }
+
+                                        #html5-compat td.maybe {
+                                            background-color: #fa0;
+                                        }
+
+                                        #html5-compat td {
+                                            width: 60px;
+                                            height: 20px;
+                                            text-align: center;
+                                            border-right: 1px solid #fff;
+                                            border-bottom: 1px solid #fff;
+                                        }
+                                    </style>
+                                    <table id="html5-compat">
+                                        <tr><td></td><th>Android</th><th>iOS</th><th>IE Mobile</th><th>Opera Mobile</th><th>Opera Classic</th><th>Opera Mini</th><th>Firefox Mobile</th><th>Chrome for Android</th></tr>
+                                        <tr><th>Touch support</th><td class="yes"></td><td class="yes"></td><td class="no"></td><td class="yes"></td><td class="yes"></td><td class="no"></td><td class="yes"></td><td class="yes"></td></tr>
+
+                                        <tr><td colspan="9" style="text-align: right !important;"><span><em>(Sources: <a href="http://caniuse.com/#search=touch%20events">caniuse.com</a>, <a href="http://deviceatlas.com">DeviceAtlas</a>, <a href="http://mobilehtml5.org/">mobilehtml5.org</a>)</em></span></td></tr>
+                                    </table>
+
+                                </p>
+
+                                <h2>Touch and mouse events</h2>
+                                <p>Since touch events may not be supported on a user's device - indeed, the user may not even be accessing your app on a touchscreen device - this contingency should be planned for. You may want to enable your app to support particular mouse events instead. Care should be taken here as there is not a one-to-one correspondance between mouse events and touch events, and the behaviour differences can be subtle. For a good overview of the issues involved take a look at the article <a href="http://www.html5rocks.com/en/mobile/touchandmouse/">Touch and Mouse</a> by Chris Wilson and Paul Kinlan.</p>
+
+                                <h2>Best practices</h2>
+                                <p>Care should also be taken implementing touch events that the events don't interfere with typical browser behaviours such as scrolling and zooming - thus there is an argument for disabling these default browser behaviours if you are making use of touch events. Boris Smus outlines these and other potential pitfalls to look out for over on <a href="http://www.html5rocks.com/en/mobile/touch/">HTMLRocks</a>.</p>
+
+                                <h2>Conclusion</h2>
+                                <p>In this article we've taken a look at the how the HTML5 Touch Events API enables touch interactions for your web apps. We saw how to access raw touch data, and how we can manage multi-touch interactions. While we worked through some examples to demonstrate how to access and display touches on the screen (with a little help from our friend, the canvas element), it's worth mentioning that there are open source libraries available which take care of the some of the lower level details for you, such as the very useful <a href="http://eightmedia.github.io/hammer.js/">Hammer.js</a>, a JavaScript library for multi-touch gestures. That's all for now, stay tuned for our follow up articles in our HTML5 series.</p>
+
+                                <p><strong>Update</strong> Live examples updated to work with mouse events as well as touch events for illustration purposes</p>
+
+                                <h2>Links and references</h2>
+
+                                <ul>
+                                    <li><a href="http://www.w3.org/TR/touch-events/#the-touchstart-event">W3C HTML5 Touch Events Specification</li>
+                                    <li><a href="http://www.html5rocks.com/en/mobile/touch/">Multi-touch Web Development</a> by Rob Smus on HTML5Rocks.com</li>
+                                    <li><a href="http://www.html5rocks.com/en/mobile/touchandmouse/">Touch And Mouse</a> by Chris Wilson and Paul Kinlan</li>
+                                    <li><a href="http://eightmedia.github.io/hammer.js/">Hammer.js</a> - a JavaScript library for multi-touch gestures by Jorik Tangelder</li>
+                                </ul>
+
+                                <h2>Download</h2>
+                                <p>The code examples in this article can be downloaded below.</p>
+                                <table id="attachments">
+                                    <thead><tr><th>Attachment</th><th>Size</th> </tr></thead>
+                                    <tbody>
+                                        <tr class="odd"><td><a href="http://mobiforge.com/sites/mobiforge.com/files/touch-demos.zip">touch-demos.zip</a></td><td>2.06 KB</td> </tr>
+                                    </tbody>
+                                </table>
+                            </article>
+
+                            <br class="clear" />
+                        </div>
+                    </div>
+
+                    <div class="section author ">
+                        <h3>Related</h3>
+                        <div class="inside">
+
+                            <div class="tag-label">Content:</div>
+                            <div>
+                                <ul id="related-bot"><li class="related-links"><a href="/design-development/touch-friendly-drag-and-drop">Touch-friendly Drag and Drop</a></li><li class="related-links"><a href="/news-comment/developer-economics-take-survey-and-win">Developer Economics: take the survey and win</a></li><li class="related-links"><a href="/design-development/building-html5-games-firefox-os">Building HTML5 games for Firefox OS</a></li><li class="related-links"><a href="/design-development/html5-mobile-web-canvas">HTML5 for the Mobile Web: Canvas</a></li><li class="related-links"><a href="/design-development/html5-canvas-meme-generator">HTML5 Canvas Meme Generator</a></li></ul>
+                            </div>
+
+
+                            <div class="tag-label">Tags:</div>
+                            <div id="content-tags">
+                                <ul class='links inline'><li><a href="/design-development" rel="tag" title="">Design &amp; Development</a></li><li><a href="/html5" rel="tag" title="">HTML5</a></li><li><a href="/touch" rel="tag" title="">Touch</a></li><li><a href="/html5-0" rel="tag" title="">HTML5</a></li></ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="section author clearfix">
+                        <h3>Posted by ruadhan - 15 Aug 2013</h3>
+                        <div class="inside">
+                            <div class="picture"><img src="http://mobiforge.com/sites/mobiforge.com/files/pictures/picture-6.jpg" alt="ruadhan&#039;s picture" title="ruadhan&#039;s picture" /></div>          <p>Mobile Web Guy </p>
+                            <p>
+                                <a href="http://twitter.com/rodono">@rodono</a><br />
+                                <a href="https://www.google.com/+RuadhanODonoghue">+RuadhanODonoghue</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class='breadcrumb clearfix'>
+                    <ul><li class='last'><a href=''>Comments</a></li></ul>
+                </div>
+                <div class='screen clearfix'>
+                    <div id='comments' class='inside section'>
+                        <div id='disqus_thread'></div>
+                        <script type='text/javascript'>
+                            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                            var disqus_shortname = 'mobiforge-live'; // required: replace example with your forum shortname
+                            var disqus_identifier = '/design-development/html5-mobile-web-touch-events-live';
+                            var disqus_url = 'http://mobiforge.com/design-development/html5-mobile-web-touch-events';
+
+                            /* * * DON'T EDIT BELOW THIS LINE * * */
+                            (function() {
+                                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                            })();
+                        </script>
+                        <noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+                        <a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+                    </div>
+                </div>
+            </div> <!-- #content -->
+
+            <div id="sidebar">
+                <div class='widget one noheading clearfix'><h3>In this section</h3><ul><li><a href="/design-development/html5" title="Learn about Design & Development, HTML5">HTML5</a></li><li><a href="/design-development/android" title="Learn about Design & Development, Android">Android</a></li><li><a href="/design-development/iphone" title="Learn about Design & Development, iPhone">iPhone</a></li><li><a href="/design-development/touch" title="Learn about Design & Development, Touch">Touch</a></li><li><a href="/design-development/content-adaptation" title="Learn about Design & Development, Content Adaptation">Content Adaptation</a></li><li><a href="/design-development/emulators" title="Learn about Design & Development, Emulators">Emulators</a></li><li><a href="/design-development/messaging" title="Learn about Design & Development, Messaging">Messaging</a></li><li><a href="/design-development/geolocation" title="Learn about Design & Development, Geolocation">Geolocation</a></li><li><a href="/design-development/device-detection" title="Learn about Design & Development, Device Detection">Device Detection</a></li><li><a href="/design-development/responsive-design" title="Learn about Design & Development, Responsive Design">Responsive Design</a></li><li><a href="/design-development/browsers" title="Learn about Design & Development, Browsers">Browsers</a></li><li><a href="/design-development/mcommerce" title="Learn about Design & Development, mCommerce">mCommerce</a></li><li class="more"><a href="/design-development/topics" title="More categories">More ></a></li></ul></div><div class='ad_hr'><strong>Advertising</strong></div>
+                <div class="advertisement group-tids-219" id="group-id-tids-219">
+                <script type="text/javascript" src="http://mobiforge.com/sites/all/modules/non-core/ad/serve.php?q=1&amp;c=file&amp;f=15&amp;p=sites/mobiforge.com/files&amp;t=219"></script></div>
+
+                <div class="advertisement group-tids-216" id="group-id-tids-216">
+                <script type="text/javascript" src="http://mobiforge.com/sites/all/modules/non-core/ad/serve.php?q=1&amp;c=file&amp;f=15&amp;p=sites/mobiforge.com/files&amp;t=216"></script></div>
+                <a target="blank" href="http://mobiforge.com/ad/redirect/3632/t221/"><img src='/files/da-180x150.jpg' width='180' height='150' alt='Mobile Device Detectioni Benchmarking Whitepaper' style='text-align:center' /></a>
+                <form method="post" action="http://ready.mobi/results.jsp" target="blank">
+                    <div id="readymobi">
+                        <img src="/images/ads/ready_ad.gif" width="180" height="150" alt="ready.mobi" />
+                        <div id="url-box">
+                            <input type="text" class="text" name="uri" value="http://" />
+                        </div>
+                        <div id="go-button">
+                            <input type="image" src="/images/go-button.png" alt="Go" title="Go" />
+                        </div>
+                    </div>
+                </form>
+
+                <div class="advertisement group-tids-224" id="group-id-tids-224">
+                <script type="text/javascript" src="http://mobiforge.com/sites/all/modules/non-core/ad/serve.php?q=1&amp;c=file&amp;f=15&amp;p=sites/mobiforge.com/files&amp;t=224"></script></div>
+
+            </div> <!-- #sidebar -->
+
+        </div> <!-- .inside-container -->
+
+    </div>
+    <!-- google_ad_section_start(weight=ignore) -->
+    <div id="footer" class="container">
+        <div class="span-10 first left">Copyright &copy; 2006-14 dotMobi</div>
+        <div class="span-28 center">
+            <ul>
+                <li class="first"><a href="/page/about-mobiforge">About</a></li>
+                <li><a href="/page/contact">Contact</a></li>
+                <li><a href="/page/write-us-0">Write for us</a></li>
+                <li><a href="/legal">Legal</a></li>
+                <li><a href="/archive">Archive</a></li>
+
+            </ul>
+        </div>
+        <!-- google_ad_section_end -->
+        <div class="span-10 last right">
+            <!--        <p><a href="/rssfeed">Follow us</a></p> -->
+            <div class="follow-links">
+                <a href="https://plus.google.com/116851852149998570484/posts" title="Follow mobiForge on Google+"><img src="/images/gplus-logo.gif" alt="Google+ icon" /></a> <a href="http://twitter.com/mobiforge" title="Follow mobiForge on Twitter"><img src="/files/twitter_rss.gif" alt="twitter icon" /></a> <a href="http://mobiforge.com/rssfeed" title="Follow mobiForge via RSS"><img src="/images/mini-rss-badge.gif?1" alt="RSS icon" /></a> <a href="http://mobiforge.com/rssfeed" title="Follow mobiForge via RSS">Follow us</a>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

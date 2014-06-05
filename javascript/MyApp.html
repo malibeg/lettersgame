@@ -5,13 +5,14 @@
     <script src="myapp.js"></script>
 </head>
 <body onload='init()'>
-    <h2>This is the learn to write letters game</h2>
+    <h2>Learn how to write letters!</h2>
     <div id="buttons">
         <button onclick="reset(true)">Clear</button>
         <button onclick="reset(false)">Reset</button>
-        <select onchange="letterChanged(this.value)">
-            <option value="A">Slovo A</option>
+        <select onchange="letterChanged(this.value)" >
+            <option value="A" selected>Slovo A</option>
             <option value="B">Slovo B</option>
+            <option value="C">Slovo C</option>
         </select>
         <button onclick="exportDrawing()">Export</button>
     </div>

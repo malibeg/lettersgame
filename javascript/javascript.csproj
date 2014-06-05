@@ -65,6 +65,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="touchsample.html" />
     <Content Include="letters10.js" />
     <Content Include="letters8.js" />
     <Content Include="main.js" />
