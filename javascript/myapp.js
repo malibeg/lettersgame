@@ -53,7 +53,8 @@ function Message(obj) {
 
 Message.prototype.draw = function (ctx) {
     if (this.showtime > 0) {
-        if (this.message.startsWith('heart')) {
+        var message = this.message;
+        if (message.startsWith('heart')) {
             ctx.fillStyle = this.fill;
             ctx.beginPath();
             ctx.moveTo(75, 40);
@@ -68,26 +69,41 @@ Message.prototype.draw = function (ctx) {
             ctx.font = this.font;
             ctx.textAlign = this.textAlign;
             ctx.textBaseline = this.textBaseline;
-            ctx.fillText(this.message.slice(5), 150, 200);
-        } else if (this.message === 'bravo') {
+            var misses = this.message.slice(5);
+            if (misses.length > 0) {
+                message = 'Broj promašaja: ' + misses;
+            } else {
+                message = '';
+            }
+        } else if (message === 'bravo' || message == 'greška') {
             ctx.strokeStyle = this.fill;
+            ctx.lineWidth = 4;
             ctx.beginPath();
             ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle
-            ctx.moveTo(110, 75);
-            ctx.arc(75, 75, 35, 0, Math.PI, false);   // Mouth (clockwise)
+
+            if (message === 'bravo') {
+                ctx.moveTo(110, 75);
+                ctx.arc(75, 75, 35, 0, Math.PI, false);   // Mouth (clockwise)
+                message = "BRAVO!";
+            } else {
+                ctx.moveTo(100, 100);
+                ctx.lineTo(60, 100);  // Mouth
+                message = "Greška!";
+            }
             ctx.moveTo(65, 65);
             ctx.arc(60, 65, 5, 0, Math.PI * 2, true);  // Left eye
             ctx.moveTo(95, 65);
             ctx.arc(90, 65, 5, 0, Math.PI * 2, true);  // Right eye
             ctx.stroke();
+
         }
-        else {
-            ctx.fillStyle = this.fill;
-            ctx.font = this.font;
-            ctx.textAlign = this.textAlign;
-            ctx.textBaseline = this.textBaseline;
-            ctx.fillText(this.message, 150, 100);
-        }
+
+        ctx.fillStyle = this.fill;
+        ctx.font = this.font;
+        ctx.textAlign = this.textAlign;
+        ctx.textBaseline = this.textBaseline;
+        ctx.fillText(message, 200, 200);
+
         this.showtime--;
     }
 };
@@ -147,6 +163,7 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
     });
     this.generateShapes();
     this.lastPt = null;
+    this.isCompleted = false;
 
     // This complicates things a little but but fixes mouse co-ordinate problems
     // when there's a border or padding. See getMouse for more detail
@@ -180,20 +197,37 @@ function MyCanvas(canvas, context, interval, rectNum, rectSize, currLeter) {
 
 MyCanvas.prototype.drawtouchmove = function (e) {
     e.preventDefault();
+    var canvas = this.canvas;
+    // correct position
+    var mouse = {
+        x: event.touches[0].pageX - canvas.offsetLeft,
+        y: event.touches[0].pageY - canvas.offsetTop
+    };
+
     var lastPt = this.lastPt;
     if (lastPt != null) {
-        ctx.beginPath();
-        ctx.moveTo(lastPt.x, lastPt.y);
-        ctx.lineTo(e.touches[0].pageX, e.touches[0].pageY);
-        ctx.stroke();
+        //this.ctx.strokeStyle = '#ffaa0';
+        //this.ctx.fillStyle = '#AA00FF';
+        //this.ctx.lineWidth = 15;
+        //this.ctx.beginPath();
+        //this.ctx.moveTo(lastPt.x, lastPt.y);
+        //this.ctx.lineTo(mouse.x, mouse.y);
+        //this.ctx.stroke();
+        var x = Math.floor(mouse.x / this.rectSize);
+        var y = Math.floor(mouse.y / this.rectSize);
+        if (x >= 0 && x < this.rectNum && y >= 0 && y < this.rectNum) {
+            var selectedRect = this.shapes[y + x * this.rectNum];
+            selectedRect.fill = constants.clickcolor;
+        }
     }
-    lastPt = { x: e.touches[0].pageX, y: e.touches[0].pageY };
+    this.lastPt = { x: mouse.x, y: mouse.y };
 };
 
 MyCanvas.prototype.drawtouchend = function (e) {
     e.preventDefault();
     // Terminate touch path
-    lastPt = null;
+    this.lastPt = null;
+    this.movefinished();
 };
 
 
@@ -224,6 +258,10 @@ MyCanvas.prototype.drawmousedown = function (e) {
 
 MyCanvas.prototype.drawmouseup = function (e) {
     this.dragging = false;
+    this.movefinished();
+};
+
+MyCanvas.prototype.movefinished = function () {
     var done = true;
     var miss = 0;
     var bgletter = this.background.letter;
@@ -232,6 +270,14 @@ MyCanvas.prototype.drawmouseup = function (e) {
             var cellColor = this.shapes[i].fill;
             if (bgletter[i].fill !== cellColor) {
                 if (bgletter[i].fill !== constants.lettercolor) {
+                    if (this.shapes[i].fill != constants.misscolor) {
+                        document.getElementById("messages").innerHTML = "Prati zelenu boju!";
+                        this.infomessage = new Message({
+                            message: "greška",
+                            showtime: 10,
+                            fill: '#FF0000'
+                        });
+                    }
                     this.shapes[i].fill = constants.misscolor;
                     miss++;
                 }
@@ -242,7 +288,7 @@ MyCanvas.prototype.drawmouseup = function (e) {
     }
 
     if (done) {
-        if (miss > 0 && miss < 6) {
+        if (miss > 0) {
             document.getElementById("messages").innerHTML = "BRAVO! Ali promašio si nekoliko polja: " + miss;
             this.infomessage = new Message({
                 message: "heart" + miss,
@@ -256,15 +302,14 @@ MyCanvas.prototype.drawmouseup = function (e) {
                 font: "40pt Helvetica"
             });
         }
-        //this.reset();
-    } else {
-        document.getElementById("messages").innerHTML = "Prati zelenu boju!";
+        this.reset(false);
+    } else if (this.infomessage.message !== 'greška') { // initialize with below code at beggining to get rid from if statement
         this.infomessage = new Message({
             message: "heart",
-            showtime: 20
+            showtime: 10
         });
     }
-};
+}
 
 MyCanvas.prototype.drawmousemove = function (e) {
     if (this.dragging) {
@@ -362,7 +407,7 @@ function MyApp() {
     this.canvas.height = this.rectNum * this.rectSize;
     this.mycanvashandler = new MyCanvas(this.canvas,
         this.ctx,
-        200,
+        400,
         this.rectNum,
         this.rectSize,
         JSON.parse(letters.A));
