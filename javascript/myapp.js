@@ -43,7 +43,7 @@ function Message(obj) {
     this.fill = "#FFFFFF";
     this.showtime = 0;
     this.decrement = 1;
-    this.font = "20pt Helvetica";
+    this.font = "200% Helvetica";
     this.textAlign = "center";
     this.textBaseline = "middle";
     // IF AN OBJECT WAS PASSED THEN INITIALISE PROPERTIES FROM THAT OBJECT
@@ -82,10 +82,12 @@ Message.prototype.draw = function (ctx) {
             ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle
 
             if (message === 'bravo') {
+                // smile
                 ctx.moveTo(110, 75);
                 ctx.arc(75, 75, 35, 0, Math.PI, false);   // Mouth (clockwise)
                 message = "BRAVO!";
             } else {
+                // sad face
                 ctx.moveTo(100, 100);
                 ctx.lineTo(60, 100);  // Mouth
                 message = "Greška!";
@@ -206,22 +208,32 @@ MyCanvas.prototype.drawtouchmove = function (e) {
 
     var lastPt = this.lastPt;
     if (lastPt != null) {
-        //this.ctx.strokeStyle = '#ffaa0';
-        //this.ctx.fillStyle = '#AA00FF';
-        //this.ctx.lineWidth = 15;
-        //this.ctx.beginPath();
-        //this.ctx.moveTo(lastPt.x, lastPt.y);
-        //this.ctx.lineTo(mouse.x, mouse.y);
-        //this.ctx.stroke();
         var x = Math.floor(mouse.x / this.rectSize);
         var y = Math.floor(mouse.y / this.rectSize);
         if (x >= 0 && x < this.rectNum && y >= 0 && y < this.rectNum) {
-            var selectedRect = this.shapes[y + x * this.rectNum];
-            selectedRect.fill = constants.clickcolor;
+            var index = y + x * this.rectNum;
+            var selectedRect = this.shapes[index];
+            this.setcellcolor(selectedRect, index);
         }
     }
     this.lastPt = { x: mouse.x, y: mouse.y };
 };
+
+MyCanvas.prototype.setcellcolor = function (cell, index) {
+    if (this.currLetter[index].fill !== constants.lettercolor && this.currLetter[index].fill !== constants.clickcolor) {
+        if (cell.fill != constants.misscolor) { //  do not color or alarm if already red
+            cell.fill = constants.misscolor;
+            document.getElementById("messages").innerHTML = "Prati zelenu boju!";
+            this.infomessage = new Message({
+                message: "greška",
+                showtime: 10,
+                fill: '#FF0000'
+            });
+        }
+    } else {
+        cell.fill = constants.clickcolor;
+    }
+}
 
 MyCanvas.prototype.drawtouchend = function (e) {
     e.preventDefault();
@@ -235,10 +247,13 @@ MyCanvas.prototype.drawmousedown = function (e) {
     var mouse = this.getMouse(e);
     var x = Math.floor(mouse.x / this.rectSize);
     var y = Math.floor(mouse.y / this.rectSize);
-
+    this.infomessage = new Message({
+        message: "",
+        showtime: 0
+    });
     if (x >= 0 && x < this.rectNum && y >= 0 && y < this.rectNum) {
-
-        var selectedRect = this.shapes[y + x * this.rectNum];
+        var index = y + x * this.rectNum;
+        var selectedRect = this.shapes[index];
         // in case of right click delete cell
         if (e.which === 3 || e.button === 2) {
             selectedRect.fill = this.background.getcolor(x, y);
@@ -246,14 +261,11 @@ MyCanvas.prototype.drawmousedown = function (e) {
             e.preventBubble = true;
             return false;
         } else {
-            selectedRect.fill = constants.clickcolor;
+            this.setcellcolor(selectedRect, index);
         }
         this.dragging = true;
     }
-    this.infomessage = new Message({
-        message: "",
-        showtime: 0
-    });
+
 };
 
 MyCanvas.prototype.drawmouseup = function (e) {
@@ -270,15 +282,6 @@ MyCanvas.prototype.movefinished = function () {
             var cellColor = this.shapes[i].fill;
             if (bgletter[i].fill !== cellColor) {
                 if (bgletter[i].fill !== constants.lettercolor) {
-                    if (this.shapes[i].fill != constants.misscolor) {
-                        document.getElementById("messages").innerHTML = "Prati zelenu boju!";
-                        this.infomessage = new Message({
-                            message: "greška",
-                            showtime: 10,
-                            fill: '#FF0000'
-                        });
-                    }
-                    this.shapes[i].fill = constants.misscolor;
                     miss++;
                 }
             } else if (bgletter[i].fill === constants.lettercolor) {
@@ -292,14 +295,14 @@ MyCanvas.prototype.movefinished = function () {
             document.getElementById("messages").innerHTML = "BRAVO! Ali promašio si nekoliko polja: " + miss;
             this.infomessage = new Message({
                 message: "heart" + miss,
-                showtime: 20
+                showtime: 15
             });
         } else {
             document.getElementById("messages").innerHTML = "BRAVO!!!!!";
             this.infomessage = new Message({
                 message: "bravo",
-                showtime: 20,
-                font: "40pt Helvetica"
+                showtime: 15,
+                font: "200% Helvetica"
             });
         }
         this.reset(false);
@@ -317,8 +320,9 @@ MyCanvas.prototype.drawmousemove = function (e) {
         var x = Math.floor(mouse.x / this.rectSize);
         var y = Math.floor(mouse.y / this.rectSize);
         if (x >= 0 && x < this.rectNum && y >= 0 && y < this.rectNum) {
-            var selectedRect = this.shapes[y + x * this.rectNum];
-            selectedRect.fill = constants.clickcolor;
+            var index = y + x * this.rectNum;
+            var selectedRect = this.shapes[index];
+            this.setcellcolor(selectedRect, index);
         }
     }
 }
@@ -397,17 +401,25 @@ MyCanvas.prototype.generateShapes = function () {
 };
 
 
-function MyApp() {
+function MyApp(width, hight) {
     this.canvas = document.getElementById("canvas");
     this.ctx = canvas.getContext("2d");
     this.rectNum = 10;
     this.rectSize = 60;
+    if (width !== 0 && hight !== 0) {
+        if (width > hight) {
+            this.rectSize = Math.floor(hight / (this.rectNum + 1));
+        } else {
+            this.rectSize = Math.floor(width / (this.rectNum + 1));
+        }
+    }
+
     this.shapes = [];
     this.canvas.width = this.rectNum * this.rectSize;
     this.canvas.height = this.rectNum * this.rectSize;
     this.mycanvashandler = new MyCanvas(this.canvas,
         this.ctx,
-        400,
+        100,
         this.rectNum,
         this.rectSize,
         JSON.parse(letters.A));
@@ -431,7 +443,7 @@ MyApp.prototype.exportDrawing = function () {
 
 
     // TEST of loading letters TODO delete this
-    var shapesJSON = JSON.parse(letterA);
+    var shapesJSON = JSON.parse(letters['A']);
     var len = shapesJSON.length;
     if (len === this.mycanvashandler.shapes.length) {
         for (var i = 0; i < len; i++) {
@@ -454,7 +466,9 @@ MyApp.prototype.exportDrawing = function () {
 var thgameapp = {};
 
 function init() {
-    thegameapp = new MyApp();
+    var w = window.innerWidth || 0;
+    var h = window.innerHeight || 0;
+    thegameapp = new MyApp(w, h);
 };
 
 function reset(clear) {
@@ -473,7 +487,8 @@ function letterChanged(value) {
 var letters = {
     A: '[{ "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }]',
     B: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]',
-    C: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]'
+    C: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]',
+    Č: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]'
 };
 
 

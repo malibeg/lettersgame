@@ -13,12 +13,13 @@
             <option value="A" selected>Slovo A</option>
             <option value="B">Slovo B</option>
             <option value="C">Slovo C</option>
+            <option value="Č">Slovo Č</option>
         </select>
         <button onclick="exportDrawing()">Export</button>
     </div>
-    <div id="container">
+    <div id="container" style="overflow: hidden; touch-action: none;">
         <div><label id="messages">Click and drag the mouse to draw a letter!</label></div>
-        <canvas id="canvas" width="400" height="400" style="border: 1px solid #000;" oncontextmenu="return false">
+        <canvas id="canvas" width="400" height="400" style="border: 1px solid #000; -ms-touch-action: none;" oncontextmenu="return false">
             <br />
             This text is displayed if your browser does not support HTML5 Canvas.<br />
         </canvas>
