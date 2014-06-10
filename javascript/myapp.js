@@ -469,6 +469,8 @@ function init() {
     var w = window.innerWidth || 0;
     var h = window.innerHeight || 0;
     thegameapp = new MyApp(w, h);
+    var audiocontrol = document.getElementById('audioctrl');
+    audiocontrol.play();
 };
 
 function reset(clear) {
@@ -482,6 +484,14 @@ function exportDrawing() {
 function letterChanged(value) {
     var letter = JSON.parse(letters[value]);
     thegameapp.letterChanged(letter);
+    var audioelem = document.getElementById('audioslovo');
+    var path = 'slova/' + value + '1.mp3';
+    audioelem.src = path;
+    var audiocontrol = document.getElementById('audioctrl');
+    audiocontrol.load();
+    audiocontrol.play();
+    //var audio = new Audio(path);
+    //audio.play();
 };
 
 var letters = {

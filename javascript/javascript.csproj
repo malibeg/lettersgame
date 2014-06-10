@@ -65,6 +65,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="slova\A1.mp3" />
+    <Content Include="slova\B1.mp3" />
+    <Content Include="slova\C1.mp3" />
+    <Content Include="slova\Č1.mp3" />
     <Content Include="touchsample.html" />
     <Content Include="letters10.js" />
     <Content Include="letters8.js" />
