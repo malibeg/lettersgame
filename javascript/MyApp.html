@@ -1,32 +1,52 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <script src="myapp.js"></script>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body onload='init()'>
-    <h2>Learn how to write letters!</h2>
-    <div id="buttons">
-        <button onclick="reset(true)">Clear</button>
-        <button onclick="reset(false)">Reset</button>
-        <select onchange="letterChanged(this.value)" >
-            <option value="A" selected>Slovo A</option>
-            <option value="B">Slovo B</option>
-            <option value="C">Slovo C</option>
-            <option value="Č">Slovo Č</option>
-        </select>
-        <button onclick="exportDrawing()">Export</button>
+    <div class="row">
+        <div class="col-xs-offset-1 col-md-offset-2">
+            <h2>Learn how to write letters!</h2>
+        </div>
     </div>
-    <div id="container" style="overflow: hidden; touch-action: none;">
-        <div><label id="messages">Click and drag the mouse to draw a letter!</label></div>
-        <canvas id="canvas" width="400" height="400" style="border: 1px solid #000; -ms-touch-action: none;" oncontextmenu="return false">
-            <br />
-            This text is displayed if your browser does not support HTML5 Canvas.<br />
-        </canvas>
+    <div class="row">
+        <div id="buttons" class="col-xs-10 col-md-offset-2 btn-group">
+            <button onclick="reset(true)" class="btn btn-lg">Clear</button>
+            <button onclick="reset(false)" class="btn btn-lg">Reset</button>
+            <select onchange="letterChanged(this.value)" class="btn btn-primary btn-lg">
+                <option value="A" selected>Slovo A</option>
+                <option value="B">Slovo B</option>
+                <option value="C">Slovo C</option>
+                <option value="Č">Slovo Č</option>
+            </select>
+            <button onclick="exportDrawing()" class="btn btn-lg">Export</button>
+        </div>
     </div>
-    <audio id="audioctrl" controls>
-        <source id ="audioslovo"src="slova/A1.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
+    <div class="row">
+        <div id="container" style="overflow: hidden; touch-action: none;" class="col-xs-offset-1 col-md-offset-2">
+            <div><label id="messages">Click and drag the mouse to draw a letter!</label></div>
+            <canvas id="canvas" width="400" height="400" style="border: 1px solid #000; -ms-touch-action: none;" oncontextmenu="return false">
+                <br />
+                This text is displayed if your browser does not support HTML5 Canvas.<br />
+            </canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-1 col-md-offset-2">
+            <audio id="audioctrl" controls>
+                <source id="audioslovo" src="slova/A1.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="col-xs-offset-1 col-md-offset-2">
+            <audio id="audioctrl2" controls class="hidden">
+                <source id="mp3src" src="slova/bravo1.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
 </body>
 </html>
