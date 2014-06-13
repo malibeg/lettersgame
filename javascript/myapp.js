@@ -12,27 +12,27 @@ if (typeof String.prototype.startsWith != 'function') {
     };
 }
 
-var LettGame = LettGame || {};
+var LetterGame = LetterGame || {};
 /// RECTANGLE OBJECT
-
-// Constructor for Rectangle objects to hold data for all drawn objects.
-// For now they will just be defined as rectangles.
-function Rectangle(obj) {
-    this.x = 0;
-    this.y = 0;
-    this.w = 1;
-    this.h = 1;
-    this.fill = '#AAAAAA';
-    this.selected = false;
-
+LetterGame.rectangle = function(spec) {
+    var priv = {};
+    priv.x = 0;
+    priv.y = 0;
+    priv.w = 1;
+    priv.h = 1;
+    priv.fill = '#AAAAAA';
     // IF AN OBJECT WAS PASSED THEN INITIALISE PROPERTIES FROM THAT OBJECT
-    for (var prop in obj) this[prop] = obj[prop];
-}
+    for (var prop in spec) priv[prop] = spec[prop];
 
-// Draws this Rectangle to a given context
-Rectangle.prototype.draw = function (ctx) {
-    ctx.fillStyle = this.fill;
-    ctx.fillRect(this.x, this.y, this.w, this.h);
+    var that = {};
+    that.fill = priv.fill;
+    // Draws this Rectangle to a given context
+    that.draw = function(ctx) {
+        ctx.fillStyle = that.fill;
+        ctx.fillRect(priv.x, priv.y, priv.w, priv.h);
+    };
+
+    return that;
 };
 
 
@@ -115,7 +115,7 @@ Message.prototype.draw = function (ctx) {
 // This class calculates color of background cell
 function Background(obj) {
     this.col1 = '#BBFFBB';
-    this.col2 = '#333333';
+    this.col2 = '#669966';
     this.letter = {};
     this.rectNum = 1;
     for (var prop in obj) this[prop] = obj[prop];
@@ -140,10 +140,10 @@ Background.prototype.getcolor = function (col, row) {
 
 
 var constants = {
-    lettercolor: '#00CC99',
+    lettercolor: '#00CC22',
     clickcolor: '#9999FF',
     oddfieldcolor: '#BBFFBB',
-    pairfieldcolor: '#333333',
+    pairfieldcolor: '#669966',
     misscolor: '#EE3333'
 };
 
@@ -400,7 +400,7 @@ MyCanvas.prototype.generateShapes = function () {
     for (var i = 0; i < this.rectNum; i = i + 1) {
         for (var j = 0; j < this.rectNum; j = j + 1) {
             var color = this.background.getcolor(i, j);
-            this.shapes.push(new Rectangle({
+            this.shapes.push(LetterGame.rectangle({
                 x: i * this.rectSize,
                 y: j * this.rectSize,
                 w: this.rectSize,
@@ -442,11 +442,11 @@ MyApp.prototype.reset = function (clear) {
     this.mycanvashandler.reset(clear);
 };
 
-MyApp.prototype.letterChanged = function (letter) {
+MyApp.prototype.letterChanged = function (letter, lettergrid) {
     // add setter for current letter TODO
-    this.mycanvashandler.currLetter = letter;
-    this.mycanvashandler.background.letter = letter;
-    this.mycanvashandler.playthetune('audioctrl', 'audioslovo', value + '1.mp3');
+    this.mycanvashandler.currLetter = lettergrid;
+    this.mycanvashandler.background.letter = lettergrid;
+    this.mycanvashandler.playthetune('audioctrl', 'audioslovo', letter + '1.mp3');
     this.reset();
 };
 
@@ -492,14 +492,14 @@ function exportDrawing() {
 
 function letterChanged(value) {
     var letter = JSON.parse(letters[value]);
-    thegameapp.letterChanged(letter);
+    thegameapp.letterChanged(value, letter);
 };
 
 var letters = {
-    A: '[{ "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#00CC99" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#00CC99" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }, { "fill": "#333333" }, { "fill": "#BBFFBB" }]',
-    B: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]',
-    C: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]',
-    Č: '[{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#00CC99"},{"fill":"#00CC99"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"},{"fill":"#333333"},{"fill":"#BBFFBB"}]'
+    A: '[{ "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#669966" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#BBFFBB" }, { "fill": "#00CC22" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#00CC22" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#00CC22" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#669966" }, { "fill": "#00CC22" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#00CC22" }, { "fill": "#BBFFBB" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }, { "fill": "#669966" }, { "fill": "#BBFFBB" }]',
+    B: '[{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"}]',
+    C: '[{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"}]',
+    Č: '[{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#00CC22"},{"fill":"#00CC22"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"},{"fill":"#669966"},{"fill":"#BBFFBB"}]'
 };
 
 
