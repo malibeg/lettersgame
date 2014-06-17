@@ -67,6 +67,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\app\backbround.js" />
+    <Content Include="Scripts\app\canvasmanager.js" />
+    <Content Include="Scripts\app\constants.js" />
     <Content Include="Scripts\app\letters.js" />
     <Content Include="Scripts\app\message.js" />
     <Content Include="Scripts\app\rectangle.js" />
