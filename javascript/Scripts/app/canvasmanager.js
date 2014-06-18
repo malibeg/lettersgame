@@ -1,6 +1,5 @@
 ﻿
 
-
 LetterGame = function (letterGame) {
 
      var CanvasManager = function(canvas, context, interval, rectNum, rectSize, currLeter) {
@@ -122,7 +121,6 @@ LetterGame = function (letterGame) {
                 selectedRect.fill = this.background.getcolor(x, y);
                 e.preventDefault();
                 e.preventBubble = true;
-                return false;
             } else {
                 this.setcellcolor(selectedRect, index);
             }
