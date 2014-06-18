@@ -11,7 +11,11 @@ LetterGame = function (letterGame) {
         this.dragging = false;
         this.currLetter = currLeter || {};
         this.shapes = [];
-        this.infomessage = {};
+        this.infomessage = letterGame.message;
+        this.infomessage.setup({
+            message: "Nacrtaj ovo slovo: ",
+            showtime: 5
+        });
         this.background = letterGame.background;
         this.background.init({
             letter: this.currLetter,
@@ -34,11 +38,6 @@ LetterGame = function (letterGame) {
         this.htmlLeft = html.offsetLeft;
 
         var self = this;
-
-        this.infomessage = letterGame.message({
-            message: "Nacrtaj ovo slovo: ",
-            showtime: 5
-        });
 
         canvas.addEventListener('mousedown', function(event) { self.drawmousedown(event); }, true);
         canvas.addEventListener("touchmove", function(event) { self.drawtouchmove(event); }, false);
@@ -85,10 +84,9 @@ LetterGame = function (letterGame) {
             if (cell.fill != letterGame.constants.misscolor) { //  do not color or alarm if already red
                 cell.fill = letterGame.constants.misscolor;
                 document.getElementById("messages").innerHTML = "Prati zelenu boju!";
-                this.infomessage = letterGame.message({
+                this.infomessage.setup({
                     message: "greška",
-                    showtime: 10,
-                    fill: '#FF0000'
+                    showtime: 10
                 });
                 this.playthetune('audioctrl2', 'mp3src', 'mistake1.mp3');
             }
@@ -109,7 +107,7 @@ LetterGame = function (letterGame) {
         var mouse = this.getMouse(e);
         var x = Math.floor(mouse.x / this.rectSize);
         var y = Math.floor(mouse.y / this.rectSize);
-        this.infomessage = letterGame.message({
+        this.infomessage.setup({
             message: "",
             showtime: 0
         });
@@ -154,14 +152,14 @@ LetterGame = function (letterGame) {
         if (done) {
             if (miss > 0) {
                 document.getElementById("messages").innerHTML = "BRAVO! Ali promašio si nekoliko polja: " + miss;
-                this.infomessage = letterGame.message({
+                this.infomessage.setup({
                     message: "heart" + miss,
                     showtime: 15
                 });
                 this.playthetune('audioctrl2', 'mp3src', 'bravo2.mp3');
             } else {
                 document.getElementById("messages").innerHTML = "BRAVO!!!!!";
-                this.infomessage = letterGame.message({
+                this.infomessage.setup({
                     message: "bravo",
                     showtime: 15,
                     font: "200% Helvetica"
@@ -170,7 +168,7 @@ LetterGame = function (letterGame) {
             }
             this.reset(false);
         } else if (this.infomessage.getmessage() !== 'greška') { // initialize with below code at beggining to get rid from if statement
-            this.infomessage = letterGame.message({
+            this.infomessage.setup({
                 message: "heart",
                 showtime: 10
             });
